@@ -1,0 +1,37 @@
+
+
+.right-content{
+    background: #FFF;
+} 
+
+.menu {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}   
+.menu .select{
+    display: flex;
+    width: 20rem;
+    margin: 1rem;
+    
+}
+.menu .select :nth-child(1){
+    margin-right: 1rem;
+}
+.menu .option button{
+    margin: 1rem;
+}
+
+.form-group{
+    margin-bottom: 2.5rem ;
+}
+
+
+.table-fixed{
+    height: 600px;
+    overflow-y: scroll;
+}
+
+
