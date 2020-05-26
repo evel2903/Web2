@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống kê</title>
+
+
+    <!-- Add css bootstrap 4.5 -->
+    <link rel="stylesheet" href="../Vendors/bootstrap-4.5.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../Resources/css/header.css">
+    <link rel="stylesheet" href="../Resources/css/main.css">
+
+
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
+            <a class="navbar-brand logo p-0" href="./home.html">
+                <img src="../Resources/img/logo.svg">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./home.html">Quản lý hồ sơ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./mark.html">Quản lý điểm</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="./statistic.html">Thống kê</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cài đặt
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Đổi mật khẩu</a>
+                            <a class="dropdown-item" href="#">Đăng Xuất</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="main-table">
+                <table class="table">
+                    <!--table header-->
+                    <thead class="table-header">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Mã HS</th>
+                            <th scope="col">Họ và Tên</th>
+                            <th scope="col">Giới tính</th>
+                            <th scope="col">Ngày Sinh</th>
+                            <th scope="col">Nơi Sinh</th>
+                            <th scope="col">SĐT gia đình</th>
+                            <th scope="col">Sửa / Xoá</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-content" id="student-table">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add js bootstrap 4.5 -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="../Vendors/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+    <script src="../Vendors/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Add js FontAwesome-->
+    <!-- <script src="https://kit.fontawesome.com/2e05425cd1.js" crossorigin="anonymous"></script> -->
+
+    <!-- Add js -->
+    
+
+</body>
+
+</html>

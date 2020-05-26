@@ -29,9 +29,18 @@
 }
 
 
-.table-fixed{
+/* .table-fixed{
     height: 600px;
     overflow-y: scroll;
+} */
+
+.table-content {
+    display:block;
+    height:600px;
+    overflow:auto;
 }
-
-
+.table-header, .table-content tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý điểm</title>
+
+
+    <!-- Add css bootstrap 4.5 -->
+    <link rel="stylesheet" href="../Vendors/bootstrap-4.5.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../Resources/css/header.css">
+    <link rel="stylesheet" href="../Resources/css/main.css">
+
+
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #e3f2fd;">
+            <a class="navbar-brand logo p-0" href="./home.html">
+                <img src="../Resources/img/logo.svg">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./home.html">Quản lý hồ sơ</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="./mark.html">Quản lý điểm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./statistic.html">Thống kê</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cài đặt
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Đổi mật khẩu</a>
+                            <a class="dropdown-item" href="#">Đăng Xuất</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row content">
+            <div id="form-std-mark" class="col-4 left-content">
+                <div>
+                    <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập điểm học sinh</h2>
+                    <form class="" action="">
+
+                        <div class="form-group row">
+                            <label for="inputStudentId" class="col-3 col-form-label">Mã số học sinh</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" id="inputStudentId"
+                                    placeholder="Mã số học sinh">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="inputStudentName" class="col-3 col-form-label">Họ và tên</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control" id="inputStudentName" placeholder="Họ và tên">
+                            </div>
+                        </div>
+
+                        <div class="border border-primary pt-4 px-4 mb-3">
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <label class="col-6 col-form-label d-inline">Điểm
+                                        miệng</label>
+                                    <div class="col-6 d-inline">
+                                        <input type="number" class="form-control" id="mark1" placeholder="Điểm miệng">
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+
+                                    <label class="col-6 col-form-label d-inline">Điểm
+                                        15p1</label>
+                                    <div class="col-6 d-inline">
+                                        <input type="number" class="form-control" id="mark151"
+                                            placeholder="Điểm 15 phút 1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <label class="col-6 col-form-label d-inline">Điểm
+                                        15p2</label>
+                                    <div class="col-6 d-inline">
+                                        <input type="number" class="form-control" id="mark152"
+                                            placeholder="Điểm 15 phút 2">
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+
+                                    <label class="col-6 col-form-label d-inline">Điểm giữa
+                                        kỳ</label>
+                                    <div class="col-6 d-inline">
+                                        <input type="number" class="form-control" id="mark45"
+                                            placeholder="Điểm giữa kỳ">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <label class="col-6 col-form-label d-inline">Điểm cuối
+                                        kỳ</label>
+                                    <div class="col-6 d-inline">
+                                        <input type="number" class="form-control" id="mark90"
+                                            placeholder="Điểm cuối kỳ">
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-1">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-success">Nhập điểm</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-8 right-content">
+                <div class="menu-bar">
+                    <div class="menu">
+                        <div class="search-student">
+
+                        </div>
+
+                        <div class="option">
+                            <button id="btn-enter-mark" class="btn btn-success">Nhập điểm</button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="main-table">
+                    <table class="table">
+                        <!--table header-->
+                        <thead class="table-header">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Mã HS</th>
+                                <th scope="col">Họ và Tên</th>
+                                <th scope="col">Điểm miệng</th>
+                                <th scope="col">Điểm 15p</th>
+                                <th scope="col">Điểm 15p</th>
+                                <th scope="col">Điểm 45p</th>
+                                <th scope="col">Điểm HK</th>
+                                <th scope="col">Điểm TB</th>
+                                <th scope="col">Sửa</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-content" id="student-table">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add js bootstrap 4.5 -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="../Vendors/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+    <script src="../Vendors/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Add js FontAwesome-->
+    <!-- <script src="https://kit.fontawesome.com/2e05425cd1.js" crossorigin="anonymous"></script> -->
+
+    <!-- Add js -->
+    <script src="../Resources/javascript/Module/Mark.js"></script>
+
+</body>
+
+</html>
