@@ -129,7 +129,7 @@ const renderAddStudentForm = () => {
                     </div>
 
                     <div class="form-group row mb-1">
-                        <div class="col-sm-10">
+                        <div class="col text-center">
                             <button type="submit" class="btn btn-success">Thêm học sinh</button>
                         </div>
                     </div>
@@ -194,7 +194,7 @@ const renderEditStudentForm = (student) => {
                     </div>
 
                     <div class="form-group row mb-1">
-                        <div class="col-sm-10">
+                        <div class="col text-center">
                             <button type="submit" class="btn btn-primary">Sửa học sinh</button>
                         </div>
                     </div>
