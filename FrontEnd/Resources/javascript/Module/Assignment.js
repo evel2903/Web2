@@ -2,11 +2,11 @@
 const renderAssignment = (assignment, index) => {
     return `<tr>
                 <th scope="row">${index  + 1}</th>
-                <td>${assignment.id}</td>
-                <td>${assignment.idmh}</td>
-                <td>${assignment.idgv}</td>
-                <td>${assignment.idclass}</td>
-                <td>${assignment.idsem}</td>
+                <td>${assignment.idAssignment}</td>
+                <td>${assignment.idSubject}</td>
+                <td>${assignment.idTeacher}</td>
+                <td>${assignment.idClass}</td>
+                <td>${assignment.idSem}</td>
                 <td>
                     <button onclick="editAssignment(event)" class="btn btn-primary" data-toggle="modal"
                         data-target="#exampleModalCenter">
@@ -23,11 +23,11 @@ const editAssignment = (event) => {
     let row = event.target.parentElement.parentElement.children
 
     let assignment = {
-        id: row[1].textContent,
-        idmh:row[2].textContent,
-        idgv: row[3].textContent,
-        idclass:row[4].textContent,
-        idsem:row[5].textContent,
+        idAssignment: row[1].textContent,
+        idSubject:row[2].textContent,
+        idTeacher: row[3].textContent,
+        idClass:row[4].textContent,
+        idSem:row[5].textContent,
     }
     document.getElementById('form-assignment-info').innerHTML = renderEditAssignmentForm(assignment)
 }
@@ -132,34 +132,34 @@ const renderEditAssignmentForm = (assignment) => {
                     <div class="form-group row">
                         <label for="inputTeacherId" class="col-3 col-form-label">Mã phân công</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherId" placeholder="Mã phân công" value="${assignment.id}" disabled>
+                            <input type="text" class="form-control" id="inputTeacherId" placeholder="Mã phân công" value="${assignment.idAssignment}" disabled>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="inputTeacherName" class="col-3 col-form-label">Mã môn học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherName" placeholder="Mã môn học" value="${assignment.idmh}">
+                            <input type="text" class="form-control" id="inputTeacherName" placeholder="Mã môn học" value="${assignment.idSubject}">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="inputTeacherIdMh" class="col-3 col-form-label">Mã giáo viên</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Mã giáo viên" value="${assignment.idgv}">
+                            <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Mã giáo viên" value="${assignment.idTeacher}">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="inputTeacherArs" class="col-3 col-form-label">Mã lớp học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherArs" placeholder="Mã lớp học" value="${assignment.idclass}">
+                            <input type="text" class="form-control" id="inputTeacherArs" placeholder="Mã lớp học" value="${assignment.idClass}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inputTeacherArs" class="col-3 col-form-label">Mã học kỳ</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherArs" placeholder="Mã học kỳ" value="${assignment.idsem}">
+                            <input type="text" class="form-control" id="inputTeacherArs" placeholder="Mã học kỳ" value="${assignment.idSem}">
                         </div>
                     </div>
 
@@ -184,4 +184,12 @@ document.getElementById('btn-add-assignment').addEventListener('click', () => {
 //search student
 document.getElementById('inputSearch').addEventListener('keyup', searchAssignment)
 //render table student
-document.getElementById('assignment-table').innerHTML = assignmentHTML(assignmentList);
+axios.get('/Web2/Backend/Data/Data.php')
+    .then(function (response) {
+        // handle success
+        document.getElementById('assignment-table').innerHTML = assignmentHTML([...response.data.assignmentList]);        
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    });

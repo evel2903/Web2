@@ -119,9 +119,13 @@
 
             <div class="col-8 mx-auto bg-white rounded shadow">
                 <div class="row flex-row d-flex py-3 justify-content-between">
-                    <input id="inputSearch" class="form-control w-25 px-3 mx-3" type="search"
+                    <select class="form-control col-2 mx-3" name="classroom" id="classroom">
+
+                    </select>
+                    <input id="inputSearch" class="form-control col-6 px-3 mx-3" type="search"
                         placeholder="Tìm kiếm mã học sinh" aria-label="Search">
-                    <button id="btn-add-student" class="btn btn-success px-3 mx-3">Thêm học sinh</button>
+                        
+                    <button id="btn-add-student" class="btn btn-success  col-2 px-3 mx-3">Thêm học sinh</button>
                 </div>
 
                 <!-- Fixed header table-->
@@ -131,6 +135,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Mã HS</th>
+                                <th scope="col">Mã Lớp</th>
                                 <th scope="col">Họ và Tên</th>
                                 <th scope="col">Giới tính</th>
                                 <th scope="col">Ngày Sinh</th>
@@ -160,9 +165,9 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Advanced-NavBar---Multi-dropdown.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <script src="/FrontEnd/Resources/javascript/home.js"></script>
-    <script src="/FrontEnd/Resources/javascript/Module/Student.js"></script>
+    <script src="/Web2/FrontEnd/Resources/javascript/Module/Student.js"></script>
 </body>
 
 </html>

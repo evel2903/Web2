@@ -2,7 +2,7 @@
 const renderTeacher= (subject, index) => {
     return `<tr>
                 <th scope="row">${index  + 1}</th>
-                <td>${subject.id}</td>
+                <td>${subject.idSubject}</td>
                 <td>${subject.fullName}</td>
                 <td>${subject.lesson}</td>
                 <td>${subject.coefficient}</td>
@@ -19,7 +19,7 @@ const editSubject = (event) => {
     let row = event.target.parentElement.parentElement.children
 
     let subject = {
-        id: row[1].textContent,
+        idSubject: row[1].textContent,
         fullName:row[2].textContent,
         lesson: row[3].textContent,
         coefficient:row[4].textContent,
@@ -122,7 +122,7 @@ const renderEditSubjectForm = (subject) => {
             <label for="inputTeacherId" class="col-3 col-form-label">Mã môn học</label>
             <div class="col-8">
                 <input type="text" class="form-control" id="inputTeacherId"
-                    placeholder="Mã môn học" value="${subject.id}" disabled>
+                    placeholder="Mã môn học" value="${subject.idSubject}" disabled>
             </div>
         </div>
 
@@ -167,4 +167,14 @@ document.getElementById('btn-add-subject').addEventListener('click', () => {
 //search student
 document.getElementById('inputSearch').addEventListener('keyup', searchSubject)
 //render table student
-document.getElementById('subject-table').innerHTML = subjectHTML(subjectList);
+
+axios.get('/Web2/Backend/Data/Data.php')
+    .then(function (response) {
+        // handle success
+        document.getElementById('subject-table').innerHTML = subjectHTML([...response.data.subjectList]);
+        
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    });

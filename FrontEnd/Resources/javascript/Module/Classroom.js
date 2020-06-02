@@ -2,7 +2,7 @@
 const renderClassroom= (classroom, index) => {
     return `<tr>
                 <th scope="row">${index  + 1}</th>
-                <td>${classroom.id}</td>
+                <td>${classroom.idClass}</td>
                 <td>${classroom.fullName}</td>
                 <td>${classroom.grade}</td>
                 <td>
@@ -18,7 +18,7 @@ const editClassroom = (event) => {
     let row = event.target.parentElement.parentElement.children
 
     let subject = {
-        id: row[1].textContent,
+        idClass: row[1].textContent,
         fullName:row[2].textContent,
         grade: row[3].textContent,
     }
@@ -113,7 +113,7 @@ const renderEditClassroomForm = (classroom) => {
                         <label for="inputTeacherId" class="col-3 col-form-label">Mã lớp học</label>
                         <div class="col-8">
                             <input type="text" class="form-control" id="inputTeacherId"
-                                placeholder="Mã lớp học" value="${classroom.id}">
+                                placeholder="Mã lớp học" value="${classroom.idClass}">
                         </div>
                     </div>
 
@@ -151,4 +151,13 @@ document.getElementById('btn-add-classroom').addEventListener('click', () => {
 //search student
 document.getElementById('inputSearch').addEventListener('keyup', searchClassroom)
 //render table student
-document.getElementById('classroom-table').innerHTML = classroomHTML(classroomList);
+
+axios.get('/Web2/Backend/Data/Data.php')
+    .then(function (response) {
+        // handle success
+        document.getElementById('classroom-table').innerHTML = classroomHTML([...response.data.classroomList]);        
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    });

@@ -2,9 +2,9 @@
 const renderTeacher= (teacher, index) => {
     return `<tr>
                 <th scope="row">${index  + 1}</th>
-                <td>${teacher.id}</td>
+                <td>${teacher.idTeacher}</td>
                 <td>${teacher.fullName}</td>
-                <td>${teacher.idMh}</td>
+                <td>${teacher.idSubject}</td>
                 <td>${teacher.address}</td>
                 <td>${teacher.phoneNumber}</td>
                 <td>
@@ -20,9 +20,9 @@ const editTeacher = (event) => {
     let row = event.target.parentElement.parentElement.children
 
     let teacher = {
-        id: row[1].textContent,
+        idTeacher: row[1].textContent,
         fullName:row[2].textContent,
-        idMh: row[3].textContent,
+        idSubject: row[3].textContent,
         address:row[4].textContent,
         phoneNumber:row[5].textContent,
     }
@@ -132,7 +132,7 @@ const renderEditTeacherForm = (teacher) => {
                         <label for="inputTeacherId" class="col-3 col-form-label">Mã giáo viên</label>
                         <div class="col-8">
                             <input type="text" class="form-control" id="inputTeacherId"
-                                placeholder="Mã học sinh" value="${teacher.id}" disabled>
+                                placeholder="Mã học sinh" value="${teacher.idTeacher}" disabled>
                         </div>
                     </div>
 
@@ -146,7 +146,7 @@ const renderEditTeacherForm = (teacher) => {
                     <div class="form-group row">
                         <label for="inputTeacherIdMh" class="col-3 col-form-label">Mã môn học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Mã môn học" value="${teacher.idMh}">
+                            <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Mã môn học" value="${teacher.idSubject}">
                         </div>
                     </div>
 
@@ -185,4 +185,13 @@ document.getElementById('btn-add-teacher').addEventListener('click', () => {
 //search student
 document.getElementById('inputSearch').addEventListener('keyup', searchTeacher)
 //render table student
-document.getElementById('teacher-table').innerHTML = teacherHTML(teacherList);
+
+axios.get('/Web2/Backend/Data/Data.php')
+    .then(function (response) {
+        // handle success
+        document.getElementById('teacher-table').innerHTML = teacherHTML([...response.data.teacherList]);
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    });

@@ -3,7 +3,7 @@ const renderUser = (User, index) => {
     return `<tr>
                 <th scope="row">${index  + 1}</th>
                 <td>${User.username}</td>
-                <td>${User.level === 0 ? 'Quản trị viên' : 'Người dùng'}</td>
+                <td>${User.level == 0 ? 'Quản trị viên' : 'Người dùng'}</td>
                 <td>
                     <button onclick="editUser(event)" class="btn btn-primary">Sửa</button>
                     <button onclick="delUser(event)" class="btn btn-danger">Xoá</button>
@@ -166,4 +166,14 @@ document.getElementById('btn-add-user').addEventListener('click', () => {
 //search student
 document.getElementById('inputSearch').addEventListener('keyup', searchUser)
 //render table student
-document.getElementById('user-table').innerHTML = userHTML(userList);
+
+axios.get('/Web2/Backend/Data/Data.php')
+    .then(function (response) {
+        // handle success
+        document.getElementById('user-table').innerHTML = userHTML([...response.data.userList]);    
+        
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    });

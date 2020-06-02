@@ -1,10 +1,12 @@
 //render => table
+
 const renderStudent = (student, index) => {
     return `<tr>
-                <th scope="row">${index  + 1}</th>
-                <td>${student.id}</td>
+                <th scope="row">${index + 1}</th>
+                <td>${student.idStd}</td>
+                <td>${student.idClass}</td>
                 <td>${student.fullName}</td>
-                <td>${student.genderMale ? 'Nam' : 'Nữ'}</td>
+                <td>${student.gender}</td>
                 <td>${student.birthday}</td>
                 <td>${student.placeOfBirth}</td>
                 <td>${student.familyPhone}</td>
@@ -22,30 +24,30 @@ const editStudent = (event) => {
 
     let student = {
         id: row[1].textContent,
-        fullName:row[2].textContent,
-        genderMale: row[3].textContent === 'Nam' ? true : false,
-        birthday:row[4].textContent,
-        placeOfBirth:row[5].textContent,
-        familyPhone:row[6].textContent,
+        fullName: row[2].textContent,
+        gender: row[4].textContent,
+        birthday: row[5].textContent,
+        placeOfBirth: row[6].textContent,
+        familyPhone: row[7].textContent,
     }
     document.getElementById('form-std-info').innerHTML = renderEditStudentForm(student)
 }
 
-const delStudent = (event) =>{
+const delStudent = (event) => {
     let row = event.target.parentElement.parentElement
     document.getElementById('student-table').removeChild(row)
-    
+
 }
 
 const renderListStudent = (studentList) => {
     return studentList.map(
         (student, index) => {
-            return renderStudent(student,index);
+            return renderStudent(student, index);
         }
     )
 }
 
-const studentHTML = (studentList) =>{
+const studentHTML = (studentList) => {
     return renderListStudent(studentList).join('');
 };
 
@@ -162,7 +164,7 @@ const renderEditStudentForm = (student) => {
                         <div class="col-3"><label>Giới tính</label></div>
                         <div class="col-8">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="gender-male" ${student.genderMale ? 'checked' : '' }>
+                                <input class="form-check-input" type="checkbox" id="gender-male" ${student.gender === 'Nam' ? 'checked' : ''}>
                                 <label class="form-check-label" for="gridCheck1">
                                     Nam
                                 </label>
@@ -210,8 +212,16 @@ document.getElementById('btn-add-student').addEventListener('click', () => {
     formStdInfo.innerHTML = renderAddStudentForm();
 })
 
-
 //search student
 document.getElementById('inputSearch').addEventListener('keyup', searchStudent)
 //render table student
-document.getElementById('student-table').innerHTML = studentHTML(studentList);
+
+axios.get('/Web2/Backend/Data/Data.php')
+    .then(function (response) {
+        // handle success
+        document.getElementById('student-table').innerHTML = studentHTML([...response.data.studentList]);
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    });

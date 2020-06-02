@@ -2,7 +2,7 @@
 const renderSemester= (semester, index) => {
     return `<tr>
                 <th scope="row">${index  + 1}</th>
-                <td>${semester.id}</td>
+                <td>${semester.idSem}</td>
                 <td>${semester.fullName}</td>
                 <td>${semester.coefficient}</td>
                 <td>${semester.schoolYear}</td>
@@ -19,7 +19,7 @@ const editSemester = (event) => {
     let row = event.target.parentElement.parentElement.children
 
     let subject = {
-        id: row[1].textContent,
+        idSem: row[1].textContent,
         fullName:row[2].textContent,
         coefficient: row[3].textContent,
         schoolYear: row[4].textContent,
@@ -122,7 +122,7 @@ const renderEditSemesterForm = (semester) => {
                         <label for="inputTeacherId" class="col-3 col-form-label">Mã học kỳ</label>
                         <div class="col-8">
                             <input type="text" class="form-control" id="inputTeacherId"
-                                placeholder="Mã học kỳ" value="${semester.id}">
+                                placeholder="Mã học kỳ" value="${semester.idSem}">
                         </div>
                     </div>
 
@@ -167,4 +167,14 @@ document.getElementById('btn-add-semester').addEventListener('click', () => {
 //search student
 document.getElementById('inputSearch').addEventListener('keyup', searchSemester)
 //render table student
-document.getElementById('semester-table').innerHTML = semesterHTML(semesterList);
+
+axios.get('/Web2/Backend/Data/Data.php')
+    .then(function (response) {
+        // handle success
+        document.getElementById('semester-table').innerHTML = semesterHTML([...response.data.semesterList]);
+        
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    });

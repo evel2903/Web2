@@ -1,7 +1,7 @@
 const renderStudentMark = (studentMark, index) => {
     return `<tr>
                 <th scope="row">${index}</th>
-                <td>${studentMark.id}</td>
+                <td>${studentMark.idStd}</td>
                 <td>${studentMark.fullName}</td>
                 <td>${studentMark.mark1}</td>
                 <td>${studentMark.mark15}</td>
@@ -41,7 +41,7 @@ const renderStudentMarkFormEdit = (studentMark) => {
                 <label for="inputStudentId" class="col-3 col-form-label">Mã số học sinh</label>
                 <div class="col-8">
                     <input type="text" class="form-control" id="inputStudentId"
-                        placeholder="Mã số học sinh" value="${studentMark.id}" disabled>
+                        placeholder="Mã số học sinh" value="${studentMark.idStd}" disabled>
                 </div>
             </div>
 
@@ -132,4 +132,14 @@ const searchMark = () => {
     }
 }
 document.getElementById('inputSearch').addEventListener('keyup', searchMark)
-document.getElementById('mark-table').innerHTML = studentMarkListHTML(studentMarkList)
+
+axios.get('/Web2/Backend/Data/Data.php')
+    .then(function (response) {
+        // handle success
+        document.getElementById('mark-table').innerHTML = studentMarkListHTML([...response.data.studentMarkList])
+        
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    });
