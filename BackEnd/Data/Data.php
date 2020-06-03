@@ -1,35 +1,47 @@
 <?php
 require '../Connection/Connect.php';
+require '../Class/Student.php';
+require '../Class/Teacher.php';
+require '../Class/Subject.php';
+require '../Class/Classroom.php';
+require '../Class/Semester.php';
+require '../Class/Mark.php';
+require '../Class/Assignment.php';
+require '../Class/User.php';
+
 $connect = (new Connect())->getConnection();
 
-function getTable($connect, $table)
+
+//get all Data of table
+function getTable($connect, $tableName)
 {
-    $student_connect = mysqli_query($connect, "SELECT * FROM $table");
-    $studentList = array();
-    while ($row = mysqli_fetch_assoc($student_connect)) {
+    $table_connect = mysqli_query($connect, "SELECT * FROM $tableName");
+    $table = array();
+    while ($row = mysqli_fetch_assoc($table_connect)) {
         # code...
-        $studentList[] = $row;
+        $table[] = $row;
     }
-    return  $studentList;
+    return  $table;
 }
 
 $allData = new \stdClass; //fixed  'Creating default object from empty value'
 
 //Học sinh
-$allData->studentList = getTable($connect, 'student'); 
+$allData->studentList = (new Student())->getAllStudent();
 //Giáo viên
-$allData->teacherList = getTable($connect, 'teacher');
+$allData->teacherList = (new Teacher())->getAllTeacher();
 //Môn học
-$allData->subjectList = getTable($connect, 'subject');
+$allData->subjectList = (new Subject())->getAllSubject();
 //Lớp học
-$allData->classroomList = getTable($connect, 'classroom');
+$allData->classroomList = (new Classroom())->getAllClassroom();
 //Học kỳ
-$allData->semesterList = getTable($connect, 'semester');
+$allData->semesterList = (new Semester())->getAllSemester();
 //Điểm số
-$allData->studentMarkList = getTable($connect, 'mark');
+$allData->studentMarkList = (new Mark())->getAllMark();
 //Phân công giảng dạy
-$allData->assignmentList = getTable($connect, 'assignment');
+$allData->assignmentList = (new Assignment())->getAllAssignment();
 //User
 $allData->userList = getTable($connect, 'user');
 
-echo json_encode($allData);
+ echo json_encode($allData);
+

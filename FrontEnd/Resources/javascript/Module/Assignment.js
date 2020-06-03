@@ -1,7 +1,7 @@
 //render => table
 const renderAssignment = (assignment, index) => {
     return `<tr>
-                <th scope="row">${index  + 1}</th>
+                <th scope="row">${index + 1}</th>
                 <td>${assignment.idAssignment}</td>
                 <td>${assignment.idSubject}</td>
                 <td>${assignment.idTeacher}</td>
@@ -24,29 +24,29 @@ const editAssignment = (event) => {
 
     let assignment = {
         idAssignment: row[1].textContent,
-        idSubject:row[2].textContent,
+        idSubject: row[2].textContent,
         idTeacher: row[3].textContent,
-        idClass:row[4].textContent,
-        idSem:row[5].textContent,
+        idClass: row[4].textContent,
+        idSem: row[5].textContent,
     }
     document.getElementById('form-assignment-info').innerHTML = renderEditAssignmentForm(assignment)
 }
 
-const delAssignment = (event) =>{
+const delAssignment = (event) => {
     let row = event.target.parentElement.parentElement
     document.getElementById('assignment-table').removeChild(row)
-    
+
 }
 
 const renderListAssignment = (assignmentList) => {
     return assignmentList.map(
         (assignment, index) => {
-            return renderAssignment(assignment,index);
+            return renderAssignment(assignment, index);
         }
     )
 }
 
-const assignmentHTML = (assignmentList) =>{
+const assignmentHTML = (assignmentList) => {
     return renderListAssignment(assignmentList).join('');
 };
 
@@ -187,7 +187,7 @@ document.getElementById('inputSearch').addEventListener('keyup', searchAssignmen
 axios.get('/Web2/Backend/Data/Data.php')
     .then(function (response) {
         // handle success
-        document.getElementById('assignment-table').innerHTML = assignmentHTML([...response.data.assignmentList]);        
+        document.getElementById('assignment-table').innerHTML = assignmentHTML([...response.data.assignmentList]);
     })
     .catch(function (error) {
         // handle error

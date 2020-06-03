@@ -25,6 +25,18 @@ class Connect
         }
         return $this->myConnection;
     }
+
+    function getTable($connect, $tableName)
+    {
+        $table_connect = mysqli_query($connect, "SELECT * FROM $tableName");
+        $table = array();
+        while ($row = mysqli_fetch_assoc($table_connect)) {
+            # code...
+            $table[] = $row;
+        }
+        return  $table;
+    }
+
     function closeConnection()
     {
         mysqli_close($this->myConnection);
