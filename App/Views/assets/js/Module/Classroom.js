@@ -1,7 +1,6 @@
 //render => table
 const renderClassroom= (classroom, index) => {
     return `<tr>
-                <th scope="row">${index  + 1}</th>
                 <td>${classroom.idClass}</td>
                 <td>${classroom.fullName}</td>
                 <td>${classroom.grade}</td>
@@ -18,9 +17,9 @@ const editClassroom = (event) => {
     let row = event.target.parentElement.parentElement.children
 
     let subject = {
-        idClass: row[1].textContent,
-        fullName:row[2].textContent,
-        grade: row[3].textContent,
+        idClass: row[0].textContent,
+        fullName:row[1].textContent,
+        grade: row[2].textContent,
     }
     document.getElementById('form-classroom-info').innerHTML = renderEditClassroomForm(subject)
 }
@@ -28,6 +27,17 @@ const editClassroom = (event) => {
 const delClassroom = (event) =>{
     let row = event.target.parentElement.parentElement
     document.getElementById('classroom-table').removeChild(row)
+    axios.post('/Web2/App/Views/Classroom.php', {
+        idClass: row.children[0].textContent,
+    })
+        .then(function () {
+            // handle success
+            alert('Xóa thành công')
+        })
+        .catch(function () {
+            // handle error
+            alert('Xóa thất bại')
+        });
     
 }
 
@@ -70,33 +80,32 @@ const searchClassroom = () => {
 const renderAddClassroomForm = () => {
     return `<div>
                 <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin lớp học</h2>
-                <form class="border border-primary p-4" action="">
+                <form class="border border-primary p-4" action="Classroom.php" method="POST">
 
                     <div class="form-group row">
-                        <label for="inputTeacherId" class="col-3 col-form-label">Mã lớp học</label>
+                        <label for="idClass" class="col-3 col-form-label">Mã lớp học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherId"
-                                placeholder="Mã lớp học">
+                            <input type="text" class="form-control" id="idClass" name="idClass" placeholder="Mã lớp học">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherName" class="col-3 col-form-label">Tên lớp học</label>
+                        <label for="fullName" class="col-3 col-form-label">Tên lớp học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherName" placeholder="Tên lớp học">
+                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Tên lớp học">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherIdMh" class="col-3 col-form-label">Khối</label>
+                        <label for="grade" class="col-3 col-form-label">Khối</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Khối">
+                            <input type="text" class="form-control" id="grade" name="grade" placeholder="Khối">
                         </div>
                     </div>
 
                     <div class="form-group row mb-1">
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-success">Thêm lớp học</button>
+                            <button type="submit" name="createClassroom" class="btn btn-success">Thêm lớp học</button>
                         </div>
                     </div>
 
@@ -107,33 +116,33 @@ const renderAddClassroomForm = () => {
 const renderEditClassroomForm = (classroom) => {
     return `<div>
                 <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin lớp học</h2>
-                <form class="border border-primary p-4" action="">
+                <form class="border border-primary p-4" action="Classroom.php" method="POST">
 
-                    <div class="form-group row">
-                        <label for="inputTeacherId" class="col-3 col-form-label">Mã lớp học</label>
+                    <div class="form-group row d-none">
+                        <label for="idClass" class="col-3 col-form-label">Mã lớp học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherId"
-                                placeholder="Mã lớp học" value="${classroom.idClass}">
+                            <input type="text" class="form-control" id="idClass"
+                                placeholder="Mã lớp học" name="idClass" value="${classroom.idClass}">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherName" class="col-3 col-form-label">Tên lớp học</label>
+                        <label for="fullName" class="col-3 col-form-label">Tên lớp học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherName" placeholder="Tên lớp học" value="${classroom.fullName}">
+                            <input type="text" class="form-control" id="fullName" placeholder="Tên lớp học" name="fullName" value="${classroom.fullName}">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherIdMh" class="col-3 col-form-label">Khối</label>
+                        <label for="grade" class="col-3 col-form-label">Khối</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Khối" value="${classroom.grade}">
+                            <input type="text" class="form-control" id="grade" placeholder="Khối" name="grade" value="${classroom.grade}">
                         </div>
                     </div>
 
                     <div class="form-group row mb-1">
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-success">Thêm lớp học</button>
+                            <button type="submit" name="updateClassroom" class="btn btn-primary">Sửa lớp học</button>
                         </div>
                     </div>
 

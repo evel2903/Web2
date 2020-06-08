@@ -8,7 +8,7 @@ class User extends Connect
 
     public function getAllUser()
     {
-        return getTable($this->getConnection(),'user');
+        return $this->getTable($this->getConnection(),'user');
     }
 
     public function createUser($username, $password, $level)
@@ -19,7 +19,7 @@ class User extends Connect
 
     public function updateUser($username, $password, $level)
     {
-        $sql = "UPDATE `user` SET `password`=' $password',`level`= $level WHERE `username`='$username'";
+        $sql = "UPDATE `user` SET `password`='$password',`level`= '$level' WHERE `username`='$username'";
         return $this->query($this->getConnection(), $sql);
     }
 

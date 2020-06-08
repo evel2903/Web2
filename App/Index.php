@@ -29,12 +29,19 @@
 							$username = $_POST['txtUser'];
 							$password = $_POST['txtPass'];
 
-							$result = (new User())->checkedUser($username, $password);
-
-							if (count($result) == 0) {
-								echo 'Sai tên đăng nhập hoặc mật khẩu';
+							if (!$username || !$password) {
+								echo 'Nhập thiếu thông tin đăng nhập';
 							} else {
-								header('location: /Web2/App/views/Student.php');
+								$result = (new User())->checkedUser($username, $password);
+
+								if (count($result) == 0) {
+									echo 'Sai tên đăng nhập hoặc mật khẩu';
+								} else {
+									session_start();
+									$_SESSION['username'] = $username;
+									$_SESSION['password'] = $password;
+									header('location: /Web2/App/views/Student.php');
+								}
 							}
 						}
 						?>
@@ -65,7 +72,7 @@
 	</script>
 	<script src="/Web2/App/Vendors/js/jquery.min.js"></script>
 	<script src="/Web2/App/Vendors/bootstrap/js/bootstrap.min.js"></script>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="/Web2/App/Vendors/js/axios.min.js"></script>
 
 </body>
 

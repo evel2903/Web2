@@ -10,7 +10,7 @@ class Mark extends Connect
 
     public function getAllMark()
     {
-        return getTable($this->getConnection(),'mark');   
+        return $this->getTable($this->getConnection(),'mark');   
     }
 
     public function createMark($username, $password, $level)

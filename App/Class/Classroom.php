@@ -13,21 +13,21 @@ class Classroom extends Connect
         return $this->getTable($this->getConnection(),'classroom');   
     }
 
-    public function createClassroom($username, $password, $level)
+    public function createClassroom($idClass, $fullName, $grade)
     {
-        $sql = "";
+        $sql = "INSERT INTO `classroom`(`idClass`, `fullName`, `grade`) VALUES ('$idClass', '$fullName', '$grade')";
         return $this->query($this->getConnection(), $sql);
     }
 
-    public function updateClassroom($username, $password, $level)
+    public function updateClassroom($idClass, $fullName, $grade)
     {
-        $sql = "";
+        $sql = "UPDATE `classroom` SET `fullName`='$fullName',`grade`='$grade' WHERE `idClass`='$idClass'";
         return $this->query($this->getConnection(), $sql);
     }
 
-    public function deleteClassroom($username)
+    public function deleteClassroom($idClass)
     {
-        $sql = "";
+        $sql = "DELETE FROM `classroom` WHERE `classroom`.`idClass` = '$idClass'";
         return $this->query($this->getConnection(), $sql);
     }
 

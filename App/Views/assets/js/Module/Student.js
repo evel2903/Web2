@@ -36,10 +36,18 @@ const editStudent = (event) => {
 const delStudent = (event) => {
     let row = event.target.parentElement.parentElement
     document.getElementById('student-table').removeChild(row)
-    
-    axios.post('/Web2/App/Views/Student.php',{
+
+    axios.post('/Web2/App/Views/Student.php', {
         idStd: row.children[0].textContent,
-      });
+    })
+        .then(function () {
+            // handle success
+            alert('Xóa thành công')
+        })
+        .catch(function () {
+            // handle error
+            alert('Xóa thất bại')
+        });
 
 }
 

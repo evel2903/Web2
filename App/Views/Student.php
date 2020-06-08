@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header('location: /Web2/App/index.php');
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -11,7 +17,7 @@
     <link rel="stylesheet" href="assets/css/Bootstrap-4---Table-Fixed-Header.css">
     <link rel="stylesheet" href="assets/css/gradient-navbar-1.css">
     <link rel="stylesheet" href="assets/css/gradient-navbar.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/Web2/App/Vendors/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
@@ -37,7 +43,10 @@
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/Web2/App/Views/Assignment.php">Phân công giảng dạy</a>
                         </li>
                         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Cài đặt</a>
-                            <div class="dropdown-menu pulse animated" role="menu"><a class="dropdown-item" role="presentation" href="/Web2/App/Views/Manage.php">Quản lý User</a><a class="dropdown-item" role="presentation" href="#">Đăng xuất</a></div>
+                            <div class="dropdown-menu pulse animated" role="menu">
+                                <a class="dropdown-item" role="presentation" href="/Web2/App/Views/Manage.php">Quản lý User</a>
+                                <a class="dropdown-item" role="presentation" href="/Web2/App/index.php">Đăng xuất</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -119,7 +128,7 @@
                             <div class="form-group row">
                                 <label for="idClass" class="col-3 col-form-label">Mã lớp học</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" name="idClass" id="idClass" placeholder="Mã số học sinh">
+                                    <input type="text" class="form-control" name="idClass" id="idClass" placeholder="Mã lớp học">
                                 </div>
                             </div>
 
@@ -227,7 +236,7 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Advanced-NavBar---Multi-dropdown.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/Web2/App/Vendors/js/axios.min.js"></script>
 
     <script src="/Web2/App/Views/assets/js/Module/Student.js"></script>
 </body>

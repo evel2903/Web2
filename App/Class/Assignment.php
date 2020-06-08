@@ -10,24 +10,26 @@ class Assignment extends Connect
 
     public function getAllAssignment()
     {
-        return getTable($this->getConnection(),'assignment');   
+        return $this->getTable($this->getConnection(),'assignment');   
     }
 
-    public function createAssignment($username, $password, $level)
+    public function createAssignment($idSubject, $idTeacher, $idClass, $idSem)
     {
-        $sql = "";
+        $sql = "INSERT INTO `assignment`(`idSubject`, `idTeacher`, `idClass`, `idSem`) 
+            VALUES ('$idSubject', '$idTeacher', '$idClass', '$idSem')";
         return $this->query($this->getConnection(), $sql);
     }
 
-    public function updateAssignment($username, $password, $level)
+    public function updateAssignment($idAssignment, $idSubject, $idTeacher, $idClass, $idSem)
     {
-        $sql = "";
+        $sql = "UPDATE `assignment` SET `idSubject`='$idSubject',`idTeacher`='$idTeacher',`idClass`='$idClass',`idSem`='$idSem' 
+            WHERE `idAssignment`='$idAssignment'";
         return $this->query($this->getConnection(), $sql);
     }
 
-    public function deleteAssignment($username)
+    public function deleteAssignment($idAssignment)
     {
-        $sql = "";
+        $sql = "DELETE FROM `assignment` WHERE `assignment`.`idAssignment` = '$idAssignment'";
         return $this->query($this->getConnection(), $sql);
     }
 

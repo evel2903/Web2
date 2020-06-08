@@ -10,24 +10,30 @@ class Teacher extends Connect
 
     public function getAllTeacher()
     {
-        return getTable($this->getConnection(),'teacher');   
+        return $this->getTable($this->getConnection(),'teacher');   
     }
 
-    public function createTeacher($username, $password, $level)
+    public function createTeacher($idTeacher, $idSubject, $fullName, $address, $phoneNumber)
     {
-        $sql = "";
+        $sql = "INSERT INTO `teacher`(`idTeacher`, `idSubject`, `fullName`, `address`, `phoneNumber`) 
+            VALUES ('$idTeacher', '$idSubject', '$fullName', '$address', '$phoneNumber')";
         return $this->query($this->getConnection(), $sql);
     }
 
-    public function updateTeacher($username, $password, $level)
+    public function updateTeacher($idTeacher, $idSubject, $fullName, $address, $phoneNumber)
     {
-        $sql = "";
+        $sql = "UPDATE `teacher` 
+            SET `idSubject`='$idSubject',
+                `fullName`='$fullName',`address`='$address',
+                `phoneNumber`='$phoneNumber'
+            WHERE `idTeacher`='$idTeacher'";
         return $this->query($this->getConnection(), $sql);
     }
 
-    public function deleteTeacher($username)
+    public function deleteTeacher($idTeacher)
     {
-        $sql = "";
+        $sql = "DELETE FROM `teacher` 
+            WHERE `teacher`.`idTeacher` = '$idTeacher'";
         return $this->query($this->getConnection(), $sql);
     }
 

@@ -10,24 +10,25 @@ class Subject extends Connect
 
     public function getAllSubject()
     {
-        return getTable($this->getConnection(),'subject');   
+        return $this->getTable($this->getConnection(),'subject');   
     }
 
-    public function createSubject($username, $password, $level)
+    public function createSubject($idSubject, $fullName, $lesson, $coefficient)
     {
-        $sql = "";
+        $sql = "INSERT INTO `subject`(`idSubject`, `fullName`, `lesson`, `coefficient`) 
+            VALUES ('$idSubject', '$fullName', '$lesson', '$coefficient')";
         return $this->query($this->getConnection(), $sql);
     }
 
-    public function updateSubject($username, $password, $level)
+    public function updateSubject($idSubject, $fullName, $lesson, $coefficient)
     {
-        $sql = "";
+        $sql = "UPDATE `subject` SET`fullName`='$fullName',`lesson`='$lesson',`coefficient`='$coefficient' WHERE `idSubject`='$idSubject'";
         return $this->query($this->getConnection(), $sql);
     }
 
-    public function deleteSubject($username)
+    public function deleteSubject($idSubject)
     {
-        $sql = "";
+        $sql = "DELETE FROM `subject` WHERE `subject`.`idSubject` = '$idSubject'";
         return $this->query($this->getConnection(), $sql);
     }
 

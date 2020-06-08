@@ -10,24 +10,26 @@ class Semester extends Connect
 
     public function getAllSemester()
     {
-        return getTable($this->getConnection(),'semester');   
+        return $this->getTable($this->getConnection(),'semester');   
     }
 
-    public function createSemester($username, $password, $level)
+    public function createSemester($idSem, $fullName, $coefficient, $schoolYear)
     {
-        $sql = "";
+        $sql = "INSERT INTO `semester`(`idSem`, `fullName`, `coefficient`, `schoolYear`) 
+            VALUES ('$idSem', '$fullName', '$coefficient', '$schoolYear')";
         return $this->query($this->getConnection(), $sql);
     }
 
-    public function updateSemester($username, $password, $level)
+    public function updateSemester($idSem, $fullName, $coefficient, $schoolYear)
     {
-        $sql = "";
+        $sql = "UPDATE `semester` 
+            SET `fullName`='$fullName',`coefficient`='$coefficient',`schoolYear`='$schoolYear' WHERE `idSem`='$idSem'";
         return $this->query($this->getConnection(), $sql);
     }
 
-    public function deleteSemester($username)
+    public function deleteSemester($idSem)
     {
-        $sql = "";
+        $sql = "DELETE FROM `semester` WHERE `semester`.`idSem` = '$idSem'";
         return $this->query($this->getConnection(), $sql);
     }
 

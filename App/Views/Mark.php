@@ -1,3 +1,19 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header('location: /Web2/App/index.php');
+}
+?>
+<?php
+//import class
+require '../Connection/Connect.php';
+require '../Class/Subject.php';
+require '../Class/Teacher.php';
+require '../Class/Classroom.php';
+require '../Class/Semester.php';
+require '../Class/Assignment.php';
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -11,22 +27,19 @@
     <link rel="stylesheet" href="assets/css/Bootstrap-4---Table-Fixed-Header.css">
     <link rel="stylesheet" href="assets/css/gradient-navbar-1.css">
     <link rel="stylesheet" href="assets/css/gradient-navbar.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/Web2/App/Vendors/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
     <header>
-    <nav class="navbar navbar-light navbar-expand-md pulse" id="app-navbar">
-            <div class="container-fluid"><a class="navbar-brand" href="/Web2/App/Views/Student.php"><i class="icon ion-ios-infinite"
-                        id="brand-logo"></i></a><button data-toggle="collapse" class="navbar-toggler"
-                    data-target="#navcol-2"><span class="navbar-toggler-icon"></span></button>
+        <nav class="navbar navbar-light navbar-expand-md pulse" id="app-navbar">
+            <div class="container-fluid"><a class="navbar-brand" href="/Web2/App/Views/Student.php"><i class="icon ion-ios-infinite" id="brand-logo"></i></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-2"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navcol-2">
                     <ul class="nav navbar-nav mr-auto">
 
                         <li class="nav-item dropdown">
-                            <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false"
-                                href="#">Quản
+                            <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Quản
                                 lý hồ sơ</a>
                             <div class="dropdown-menu pulse animated" role="menu">
                                 <a class="dropdown-item" role="presentation" href="/Web2/App/Views/Student.php">Học sinh</a>
@@ -39,11 +52,8 @@
                         </li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/Web2/App/Views/Assignment.php">Phân công giảng dạy</a>
                         </li>
-                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown"
-                                aria-expanded="false" href="#">Cài đặt</a>
-                            <div class="dropdown-menu pulse animated" role="menu"><a class="dropdown-item"
-                                    role="presentation" href="/Web2/App/Views/Manage.php">Quản lý User</a><a class="dropdown-item"
-                                    role="presentation" href="#">Đăng xuất</a></div>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Cài đặt</a>
+                            <div class="dropdown-menu pulse animated" role="menu"><a class="dropdown-item" role="presentation" href="/Web2/App/Views/Manage.php">Quản lý User</a><a class="dropdown-item" role="presentation" href="/Web2/App/index.php">Đăng xuất</a></div>
                         </li>
                     </ul>
                 </div>
@@ -51,8 +61,7 @@
         </nav>
     </header>
 
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -68,16 +77,14 @@
                             <div class="form-group row">
                                 <label for="inputStudentId" class="col-3 col-form-label">Mã số học sinh</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" id="inputStudentId"
-                                        placeholder="Mã số học sinh">
+                                    <input type="text" class="form-control" id="inputStudentId" placeholder="Mã số học sinh">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="inputStudentName" class="col-3 col-form-label">Họ và tên</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" id="inputStudentName"
-                                        placeholder="Họ và tên">
+                                    <input type="text" class="form-control" id="inputStudentName" placeholder="Họ và tên">
                                 </div>
                             </div>
 
@@ -91,8 +98,7 @@
                                     <div class="col-6">
 
                                         <label>Điểm 15p</label>
-                                        <input type="number" class="form-control" id="mark151"
-                                            placeholder="Điểm 15 phút">
+                                        <input type="number" class="form-control" id="mark151" placeholder="Điểm 15 phút">
                                     </div>
                                 </div>
 
@@ -100,13 +106,11 @@
                                     <div class="col-6">
 
                                         <label>Điểm 45p</label>
-                                        <input type="number" class="form-control" id="mark45"
-                                            placeholder="Điểm giữa kỳ">
+                                        <input type="number" class="form-control" id="mark45" placeholder="Điểm giữa kỳ">
                                     </div>
                                     <div class="col-6">
                                         <label>Điểm thi</label>
-                                        <input type="number" class="form-control" id="mark90"
-                                            placeholder="Điểm thi cuối kỳ">
+                                        <input type="number" class="form-control" id="mark90" placeholder="Điểm thi cuối kỳ">
                                     </div>
                                 </div>
 
@@ -134,19 +138,34 @@
                     <div class="form-group col-2">
                         <label for="classroom">Lớp học</label>
                         <select class="form-control" name="classroom" id="classroom">
-
+                            <?php
+                            $classroomList = (new Classroom())->getAllClassroom();
+                            foreach ($classroomList as $class) {
+                                echo "<option value='$class[idClass]'>$class[idClass] - $class[fullName]</option>";
+                            }
+                            ?>
                         </select>
                     </div>
                     <div class="form-group col-2">
                         <label for="semester">Học kỳ</label>
                         <select class="form-control" name="semester" id="semester">
-
+                            <?php
+                            $semesterList = (new Semester())->getAllSemester();
+                            foreach ($semesterList as $semester) {
+                                echo "<option value='$semester[idSem]'>$semester[idSem] - $semester[fullName]</option>";
+                            }
+                            ?>
                         </select>
                     </div>
                     <div class="form-group col-2">
                         <label for="subjects">Môn học</label>
                         <select class="form-control" name="subjects" id="subjects">
-
+                            <?php
+                            $listSubject = (new Subject())->getAllSubject();
+                            foreach ($listSubject as $subject) {
+                                echo "<option value='$subject[idSubject]'>$subject[idSubject] - $subject[fullName]</option>";
+                            }
+                            ?>
                         </select>
                     </div>
                 </div>
@@ -155,8 +174,7 @@
         <div class="row">
             <div class="col-12 mx-auto bg-white rounded shadow">
                 <div class="row flex-row d-flex py-3 justify-content-between">
-                    <input id="inputSearch" class="form-control w-25 px-3 mx-3" type="search"
-                        placeholder="Tìm kiếm mã môn học" aria-label="Search">
+                    <input id="inputSearch" class="form-control w-25 px-3 mx-3" type="search" placeholder="Tìm kiếm mã môn học" aria-label="Search">
 
                 </div>
 
@@ -187,8 +205,7 @@
                                 <td>10</td>
                                 <td>10</td>
                                 <td>
-                                    <button onclick="editStudentMark(event)" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#exampleModalCenter">
+                                    <button onclick="editStudentMark(event)" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                                         Nhập
                                     </button>
                                 </td>
@@ -215,7 +232,7 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Advanced-NavBar---Multi-dropdown.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/Web2/App/Vendors/js/axios.min.js"></script>
 
 
     <script src="/Web2/App/Views/assets/js/Module/Mark.js"></script>

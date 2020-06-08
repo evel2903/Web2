@@ -1,7 +1,6 @@
 //render => table
 const renderSemester= (semester, index) => {
     return `<tr>
-                <th scope="row">${index  + 1}</th>
                 <td>${semester.idSem}</td>
                 <td>${semester.fullName}</td>
                 <td>${semester.coefficient}</td>
@@ -19,10 +18,10 @@ const editSemester = (event) => {
     let row = event.target.parentElement.parentElement.children
 
     let subject = {
-        idSem: row[1].textContent,
-        fullName:row[2].textContent,
-        coefficient: row[3].textContent,
-        schoolYear: row[4].textContent,
+        idSem: row[0].textContent,
+        fullName:row[1].textContent,
+        coefficient: row[2].textContent,
+        schoolYear: row[3].textContent,
     }
     document.getElementById('form-semester-info').innerHTML = renderEditSemesterForm(subject)
 }
@@ -30,6 +29,17 @@ const editSemester = (event) => {
 const delSemester = (event) =>{
     let row = event.target.parentElement.parentElement
     document.getElementById('semester-table').removeChild(row)
+    axios.post('/Web2/App/Views/Semester.php', {
+        idSem: row.children[0].textContent,
+    })
+        .then(function () {
+            // handle success
+            alert('Xóa thành công')
+        })
+        .catch(function () {
+            // handle error
+            alert('Xóa thất bại')
+        });
     
 }
 
@@ -54,7 +64,7 @@ const searchSemester = () => {
     row = table.getElementsByTagName("tr");
 
     for (let i = 0; i < row.length; i++) {
-        id = row[i].children[1];
+        id = row[i].children[0];
         if (id) {
             getId = id.textContent || id.innerText;
             if (getId.toUpperCase().indexOf(filter) > -1) {
@@ -72,40 +82,39 @@ const searchSemester = () => {
 const renderAddSemesterForm = () => {
     return `<div>
                 <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin học kỳ</h2>
-                <form class="border border-primary p-4" action="">
+                <form class="border border-primary p-4" action="Semester.php" method="POST">
 
                     <div class="form-group row">
-                        <label for="inputTeacherId" class="col-3 col-form-label">Mã học kỳ</label>
+                        <label for="idSem" class="col-3 col-form-label">Mã học kỳ</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherId"
-                                placeholder="Mã học kỳ">
+                            <input type="text" class="form-control" id="idSem" name="idSem" placeholder="Mã học kỳ">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherName" class="col-3 col-form-label">Tên học kỳ</label>
+                        <label for="fullName" class="col-3 col-form-label">Tên học kỳ</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherName" placeholder="Tên học kỳ">
+                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Tên học kỳ">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherIdMh" class="col-3 col-form-label">Số tiết</label>
+                        <label for="coefficient" class="col-3 col-form-label">Hệ số</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Hệ số">
+                            <input type="text" class="form-control" id="coefficient" name="coefficient" placeholder="Hệ số">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherArs" class="col-3 col-form-label">Năm học</label>
+                        <label for="schoolYear" class="col-3 col-form-label">Năm học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherArs" placeholder="Năm học">
+                            <input type="text" class="form-control" id="schoolYear" name="schoolYear" placeholder="Năm học">
                         </div>
                     </div>
 
                     <div class="form-group row mb-1">
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-success">Thêm học kỳ</button>
+                            <button type="submit" name="createSemester" class="btn btn-success">Thêm học kỳ</button>
                         </div>
                     </div>
 
@@ -116,40 +125,40 @@ const renderAddSemesterForm = () => {
 const renderEditSemesterForm = (semester) => {
     return `<div>
                 <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin học kỳ</h2>
-                <form class="border border-primary p-4" action="">
+                <form class="border border-primary p-4" action="Semester.php" method="POST">
 
-                    <div class="form-group row">
-                        <label for="inputTeacherId" class="col-3 col-form-label">Mã học kỳ</label>
+                    <div class="form-group row d-none">
+                        <label for="idSem" class="col-3 col-form-label">Mã học kỳ</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherId"
+                            <input type="text" class="form-control" id="idSem" name="idSem"
                                 placeholder="Mã học kỳ" value="${semester.idSem}">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherName" class="col-3 col-form-label">Tên học kỳ</label>
+                        <label for="fullName" class="col-3 col-form-label">Tên học kỳ</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherName" placeholder="Tên học kỳ" value="${semester.fullName}">
+                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Tên học kỳ" value="${semester.fullName}">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherIdMh" class="col-3 col-form-label">Số tiết</label>
+                        <label for="coefficient" class="col-3 col-form-label">Hệ số</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Hệ số" value="${semester.coefficient}">
+                            <input type="text" class="form-control" id="coefficient" name="coefficient"  placeholder="Hệ số" value="${semester.coefficient}">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherArs" class="col-3 col-form-label">Năm học</label>
+                        <label for="schoolYear" class="col-3 col-form-label">Năm học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherArs" placeholder="Năm học" value="${semester.schoolYear}">
+                            <input type="text" class="form-control" id="schoolYear" name="schoolYear" placeholder="Năm học" value="${semester.schoolYear}">
                         </div>
                     </div>
 
                     <div class="form-group row mb-1">
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-success">Thêm học kỳ</button>
+                            <button type="submit" name="updateSemester" class="btn btn-primary">Sửa học kỳ</button>
                         </div>
                     </div>
 

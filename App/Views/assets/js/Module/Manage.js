@@ -26,6 +26,17 @@ const editUser = (event) => {
 const delUser = (event) =>{
     let row = event.target.parentElement.parentElement
     document.getElementById('user-table').removeChild(row)
+    axios.post('/Web2/App/Views/Manage.php', {
+        username: row.children[1].textContent,
+    })
+        .then(function () {
+            // handle success
+            alert('Xóa thành công')
+        })
+        .catch(function () {
+            // handle error
+            alert('Xóa thất bại')
+        });
     
 }
 
@@ -36,7 +47,7 @@ const renderListUser = (userList) => {
         }
     )
 }
-
+ 
 const userHTML = (userList) =>{
     return renderListUser(userList).join('');
 };
@@ -67,88 +78,85 @@ const searchUser = () => {
 
 const renderAddUserForm = () => {
     return `<div>
-            <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin người dùng</h2>
-            <form class="border border-primary p-4" action="">
-
-                <div class="form-group row">
-                    <label for="inputTeacherId" class="col-3 col-form-label">Tên đằng nhập</label>
-                    <div class="col-8">
-                        <input type="text" class="form-control" id="inputTeacherId" placeholder="Tên đằng nhập">
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="inputTeacherName" class="col-3 col-form-label">Mật khẩu</label>
-                    <div class="col-8">
-                        <input type="password" class="form-control" id="inputTeacherName" placeholder="Mật khẩu">
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="inputTeacherIdMh" class="col-3 col-form-label">Mức truy cập</label>
-                    <div class="col-8">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="level" id="level0" value="0"
-                                checked>
-                            <label class="form-check-label" for="inlineRadio1">Quản trị viên</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="level" id="level1" value="1">
-                            <label class="form-check-label" for="inlineRadio2">Người dùng</label>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="form-group row mb-1">
-                    <div class="col text-center">
-                        <button type="submit" class="btn btn-success">Thêm người dùng</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>`
-}
-
-const renderEditUserForm = (user) => {
-    return `<div>
                 <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin người dùng</h2>
-                <form class="border border-primary p-4" action="">
+                <form class="border border-primary p-4" action="/Web2/App/Views/Manage.php" method="POST">
 
                     <div class="form-group row">
-                        <label for="inputTeacherId" class="col-3 col-form-label">Tên đằng nhập</label>
+                        <label for="username" class="col-3 col-form-label">Tên đằng nhập</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherId" placeholder="Tên đằng nhập" value="${user.username}" disabled>
+                            <input type="text" class="form-control" id="username" placeholder="Tên đằng nhập" name="username">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherName" class="col-3 col-form-label">Mật khẩu</label>
+                        <label for="password" class="col-3 col-form-label">Mật khẩu</label>
                         <div class="col-8">
-                            <input type="password" class="form-control" id="inputTeacherName" placeholder="Mật khẩu">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="inputTeacherIdMh" class="col-3 col-form-label">Mức truy cập</label>
-                        <div class="col-8">
+                        <div class="col-8 align-self-center">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="level" id="level0" value="0" ${user.level === 0 && 'checked'}>
+                                <input class="form-check-input" type="radio" name="level" id="level0" value="0" checked>
                                 <label class="form-check-label" for="inlineRadio1">Quản trị viên</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="level" id="level1" value="1" ${user.level === 1 && 'checked'}>
+                                <input class="form-check-input" type="radio" name="level" id="level1" value="1">
                                 <label class="form-check-label" for="inlineRadio2">Người dùng</label>
                             </div>
                         </div>
                     </div>
 
+                    <div class="form-group row mb-1">
+                        <div class="col text-center">
+                            <button type="submit" name="createUser" class="btn btn-success">Thêm người dùng</button>
+                        </div>
+                    </div>
 
+                </form>
+            </div>`
+}
+
+const renderEditUserForm = (user) => {
+    return `<div>
+                <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin người dùng</h2>
+                <form class="border border-primary p-4" action="/Web2/App/Views/Manage.php" method="POST">
+
+                    <div class="form-group row d-none">
+                        <label for="username" class="col-3 col-form-label">Tên đằng nhập</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="username" placeholder="Tên đằng nhập" name="username" value="${user.username}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="password" class="col-3 col-form-label">Mật khẩu</label>
+                        <div class="col-8">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputTeacherIdMh" class="col-3 col-form-label">Mức truy cập</label>
+                        <div class="col-8 align-self-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="level" id="level0" value="0" 
+                                    ${user.level == 0 && 'checked'}>
+                                <label class="form-check-label" for="inlineRadio1">Quản trị viên</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="level" id="level1" value="1"
+                                ${user.level == 1 && 'checked'}>
+                                <label class="form-check-label" for="inlineRadio2">Người dùng</label>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group row mb-1">
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-success">Thêm người dùng</button>
+                            <button type="submit" name="updateUser" class="btn btn-primary">Sửa người dùng</button>
                         </div>
                     </div>
 

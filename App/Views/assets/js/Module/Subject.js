@@ -1,7 +1,6 @@
 //render => table
 const renderTeacher= (subject, index) => {
     return `<tr>
-                <th scope="row">${index  + 1}</th>
                 <td>${subject.idSubject}</td>
                 <td>${subject.fullName}</td>
                 <td>${subject.lesson}</td>
@@ -19,10 +18,10 @@ const editSubject = (event) => {
     let row = event.target.parentElement.parentElement.children
 
     let subject = {
-        idSubject: row[1].textContent,
-        fullName:row[2].textContent,
-        lesson: row[3].textContent,
-        coefficient:row[4].textContent,
+        idSubject: row[0].textContent,
+        fullName:row[1].textContent,
+        lesson: row[2].textContent,
+        coefficient:row[3].textContent,
     }
     document.getElementById('form-subject-info').innerHTML = renderEditSubjectForm(subject)
 }
@@ -30,7 +29,17 @@ const editSubject = (event) => {
 const delSubject = (event) =>{
     let row = event.target.parentElement.parentElement
     document.getElementById('subject-table').removeChild(row)
-    
+    axios.post('/Web2/App/Views/Subjects.php', {
+        idSubject: row.children[0].textContent,
+    })
+        .then(function () {
+            // handle success
+            alert('Xóa thành công')
+        })
+        .catch(function () {
+            // handle error
+            alert('Xóa thất bại')
+        });
 }
 
 const renderListSubject = (subjectList) => {
@@ -72,40 +81,39 @@ const searchSubject = () => {
 const renderAddSubjectForm = () => {
     return `<div>
                 <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin môn học</h2>
-                <form class="border border-primary p-4" action="">
+                <form class="border border-primary p-4" action="Subjects.php" method="POST">
 
                     <div class="form-group row">
-                        <label for="inputTeacherId" class="col-3 col-form-label">Mã môn học</label>
+                        <label for="idSubject" class="col-3 col-form-label">Mã môn học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherId"
-                                placeholder="Mã môn học">
+                            <input type="text" class="form-control" id="idSubject" name="idSubject" placeholder="Mã môn học">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherName" class="col-3 col-form-label">Tên môn học</label>
+                        <label for="fullName" class="col-3 col-form-label">Tên môn học</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherName" placeholder="Tên môn học">
+                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Tên môn học">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherIdMh" class="col-3 col-form-label">Số tiết</label>
+                        <label for="lesson" class="col-3 col-form-label">Số tiết</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Số tiết">
+                            <input type="text" class="form-control" id="lesson" name="lesson" placeholder="Số tiết">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputTeacherArs" class="col-3 col-form-label">Hệ số</label>
+                        <label for="coefficient" class="col-3 col-form-label">Hệ số</label>
                         <div class="col-8">
-                            <input type="text" class="form-control" id="inputTeacherArs" placeholder="Hệ số">
+                            <input type="text" class="form-control" id="coefficient" name="coefficient" placeholder="Hệ số">
                         </div>
                     </div>
 
                     <div class="form-group row mb-1">
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-success">Thêm môn học</button>
+                            <button type="submit" name="createSubject" class="btn btn-success">Thêm môn học</button>
                         </div>
                     </div>
 
@@ -115,46 +123,46 @@ const renderAddSubjectForm = () => {
 
 const renderEditSubjectForm = (subject) => {
     return `<div>
-    <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin môn học</h2>
-    <form class="border border-primary p-4" action="">
+                <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin môn học</h2>
+                <form class="border border-primary p-4" action="Subjects.php" method="POST">
 
-        <div class="form-group row">
-            <label for="inputTeacherId" class="col-3 col-form-label">Mã môn học</label>
-            <div class="col-8">
-                <input type="text" class="form-control" id="inputTeacherId"
-                    placeholder="Mã môn học" value="${subject.idSubject}" disabled>
-            </div>
-        </div>
+                    <div class="form-group row d-none">
+                        <label for="idSubject" class="col-3 col-form-label">Mã môn học</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="inputTeacherId"
+                                placeholder="Mã môn học" name="idSubject" value="${subject.idSubject}">
+                        </div>
+                    </div>
 
-        <div class="form-group row">
-            <label for="inputTeacherName" class="col-3 col-form-label">Tên môn học</label>
-            <div class="col-8">
-                <input type="text" class="form-control" id="inputTeacherName" placeholder="Tên môn học" value="${subject.fullName}">
-            </div>
-        </div>
+                    <div class="form-group row">
+                        <label for="fullName" class="col-3 col-form-label">Tên môn học</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Tên môn học" value="${subject.fullName}">
+                        </div>
+                    </div>
 
-        <div class="form-group row">
-            <label for="inputTeacherIdMh" class="col-3 col-form-label">Số tiết</label>
-            <div class="col-8">
-                <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Số tiết" value="${subject.lesson}">
-            </div>
-        </div>
+                    <div class="form-group row">
+                        <label for="lesson" class="col-3 col-form-label">Số tiết</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="lesson" name="lesson" placeholder="Số tiết" value="${subject.lesson}">
+                        </div>
+                    </div>
 
-        <div class="form-group row">
-            <label for="inputTeacherArs" class="col-3 col-form-label">Hệ số</label>
-            <div class="col-8">
-                <input type="text" class="form-control" id="inputTeacherArs" placeholder="Hệ số" value="${subject.coefficient}">
-            </div>
-        </div>
+                    <div class="form-group row">
+                        <label for="coefficient" class="col-3 col-form-label">Hệ số</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" id="coefficient" name="coefficient" placeholder="Hệ số" value="${subject.coefficient}">
+                        </div>
+                    </div>
 
-        <div class="form-group row mb-1">
-            <div class="col text-center">
-                <button type="submit" class="btn btn-success">Sửa môn học</button>
-            </div>
-        </div>
+                    <div class="form-group row mb-1">
+                        <div class="col text-center">
+                            <button type="submit" name="updateSubject" class="btn btn-primary">Sửa môn học</button>
+                        </div>
+                    </div>
 
-    </form>
-</div>`
+                </form>
+            </div>`
 }
 
 

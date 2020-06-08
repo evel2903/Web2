@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header('location: /Web2/App/index.php');
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -11,21 +17,19 @@
     <link rel="stylesheet" href="assets/css/Bootstrap-4---Table-Fixed-Header.css">
     <link rel="stylesheet" href="assets/css/gradient-navbar-1.css">
     <link rel="stylesheet" href="assets/css/gradient-navbar.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/Web2/App/Vendors/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
+
 <body>
     <header>
-    <nav class="navbar navbar-light navbar-expand-md pulse" id="app-navbar">
-            <div class="container-fluid"><a class="navbar-brand" href="/Web2/App/Views/Student.php"><i class="icon ion-ios-infinite"
-                        id="brand-logo"></i></a><button data-toggle="collapse" class="navbar-toggler"
-                    data-target="#navcol-2"><span class="navbar-toggler-icon"></span></button>
+        <nav class="navbar navbar-light navbar-expand-md pulse" id="app-navbar">
+            <div class="container-fluid"><a class="navbar-brand" href="/Web2/App/Views/Student.php"><i class="icon ion-ios-infinite" id="brand-logo"></i></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-2"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navcol-2">
                     <ul class="nav navbar-nav mr-auto">
 
                         <li class="nav-item dropdown">
-                            <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false"
-                                href="#">Quản
+                            <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Quản
                                 lý hồ sơ</a>
                             <div class="dropdown-menu pulse animated" role="menu">
                                 <a class="dropdown-item" role="presentation" href="/Web2/App/Views/Student.php">Học sinh</a>
@@ -38,11 +42,8 @@
                         </li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/Web2/App/Views/Assignment.php">Phân công giảng dạy</a>
                         </li>
-                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown"
-                                aria-expanded="false" href="#">Cài đặt</a>
-                            <div class="dropdown-menu pulse animated" role="menu"><a class="dropdown-item"
-                                    role="presentation" href="/Web2/App/Views/Manage.php">Quản lý User</a><a class="dropdown-item"
-                                    role="presentation" href="#">Đăng xuất</a></div>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Cài đặt</a>
+                            <div class="dropdown-menu pulse animated" role="menu"><a class="dropdown-item" role="presentation" href="/Web2/App/Views/Manage.php">Quản lý User</a><a class="dropdown-item" role="presentation" href="/Web2/App/index.php">Đăng xuất</a></div>
                         </li>
                     </ul>
                 </div>
@@ -51,54 +52,105 @@
     </header>
     <div class="container-fluid py-5">
         <div class="row">
-            <div id="form-semester-info" class=" col-4">
-                <div>
-                    <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin học kỳ</h2>
-                    <form class="border border-primary p-4" action="">
+            <div class="col-4">
+                <div class="m-0 d-flex justify-content-center">
+                    <?php
+                    require '../Connection/Connect.php';
+                    require '../Class/Semester.php';
+                    if (isset($_POST['createSemester'])) {
 
-                        <div class="form-group row">
-                            <label for="inputTeacherId" class="col-3 col-form-label">Mã học kỳ</label>
-                            <div class="col-8">
-                                <input type="text" class="form-control" id="inputTeacherId"
-                                    placeholder="Mã học kỳ">
+                        $result = (new Semester())->createSemester(
+                            $_POST['idSem'],
+                            $_POST['fullName'],
+                            $_POST['coefficient'],
+                            $_POST['schoolYear']
+                        );
+
+                        if ($result) {
+                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
+                        } else {
+                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                        }
+                    }
+
+                    if (isset($_POST['updateSemester'])) {
+
+                        $result = (new Semester())->updateSemester(
+                            $_POST['idSem'],
+                            $_POST['fullName'],
+                            $_POST['coefficient'],
+                            $_POST['schoolYear']
+                        );
+
+                        if ($result) {
+                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
+                        } else {
+                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                        }
+                    }
+
+                    if (json_decode(file_get_contents('php://input'), true) !== null) {
+
+                        $idSem = json_decode(file_get_contents('php://input'), true)['idSem'];
+                        $result = (new Semester())->deleteSemester($idSem);
+                        if ($result) {
+                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Xóa thành công</span>';
+                        } else {
+                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Xóa thất bại</span>';
+                        }
+                    }
+
+                    ?>
+
+                </div>
+                <div id="form-semester-info">
+                    <div>
+                        <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin học kỳ</h2>
+                        <form class="border border-primary p-4" action="Semester.php" method="POST">
+
+                            <div class="form-group row">
+                                <label for="idSem" class="col-3 col-form-label">Mã học kỳ</label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="idSem" name="idSem" placeholder="Mã học kỳ">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="inputTeacherName" class="col-3 col-form-label">Tên học kỳ</label>
-                            <div class="col-8">
-                                <input type="text" class="form-control" id="inputTeacherName" placeholder="Tên học kỳ">
+                            <div class="form-group row">
+                                <label for="fullName" class="col-3 col-form-label">Tên học kỳ</label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Tên học kỳ">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="inputTeacherIdMh" class="col-3 col-form-label">Số tiết</label>
-                            <div class="col-8">
-                                <input type="text" class="form-control" id="inputTeacherIdMh" placeholder="Hệ số">
+                            <div class="form-group row">
+                                <label for="coefficient" class="col-3 col-form-label">Hệ số</label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="coefficient" name="coefficient" placeholder="Hệ số">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="inputTeacherArs" class="col-3 col-form-label">Năm học</label>
-                            <div class="col-8">
-                                <input type="text" class="form-control" id="inputTeacherArs" placeholder="Năm học">
+                            <div class="form-group row">
+                                <label for="schoolYear" class="col-3 col-form-label">Năm học</label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="schoolYear" name="schoolYear" placeholder="Năm học">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row mb-1">
-                            <div class="col text-center">
-                                <button type="submit" class="btn btn-success">Thêm học kỳ</button>
+                            <div class="form-group row mb-1">
+                                <div class="col text-center">
+                                    <button type="submit" name="createSemester" class="btn btn-success">Thêm học kỳ</button>
+                                </div>
                             </div>
-                        </div>
 
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
 
+
             <div class="col-8 mx-auto bg-white rounded shadow">
                 <div class="row flex-row d-flex py-3 justify-content-between">
-                    <input id="inputSearch" class="form-control w-25 px-3 mx-3" type="search"
-                        placeholder="Tìm kiếm mã môn học" aria-label="Search">
+                    <input id="inputSearch" class="form-control w-25 px-3 mx-3" type="search" placeholder="Tìm kiếm mã học kỳ" aria-label="Search">
                     <button id="btn-add-semester" class="btn btn-success px-3 mx-3">Thêm học kỳ</button>
                 </div>
 
@@ -107,7 +159,6 @@
                     <table class="table table-fixed">
                         <thead class="table-header">
                             <tr>
-                                <th scope="col">#</th>
                                 <th scope="col">Mã học kỳ</th>
                                 <th scope="col">Tên học kỳ</th>
                                 <th scope="col">Hệ số</th>
@@ -136,7 +187,7 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Advanced-NavBar---Multi-dropdown.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/Web2/App/Vendors/js/axios.min.js"></script>
 
 
     <script src="/Web2/App/Views/assets/js/Module/Semester.js"></script>

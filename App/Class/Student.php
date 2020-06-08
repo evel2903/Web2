@@ -10,7 +10,7 @@ class Student extends Connect
 
     public function getAllStudent()
     {
-        return getTable($this->getConnection(), 'student');
+        return $this->getTable($this->getConnection(), 'student');
     }
 
     public function createStudent($idStd, $idClass, $fullName, $gender, $birthday, $placeOfBirth, $familyPhone)
