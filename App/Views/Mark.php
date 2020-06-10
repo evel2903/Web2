@@ -72,19 +72,40 @@ require '../Class/Assignment.php';
                 </div>
                 <div class="modal-body" id="edit-std-mark">
                     <div>
-                        <form class="" action="">
+                        <form class="" action="" method="POST">
 
                             <div class="form-group row">
-                                <label for="inputStudentId" class="col-3 col-form-label">Mã số học sinh</label>
+                                <label for="idStd" class="col-3 col-form-label">Mã số học sinh</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" id="inputStudentId" placeholder="Mã số học sinh">
+                                    <input type="text" class="form-control" id="idStd" name="idStd" placeholder="Mã số học sinh">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="inputStudentName" class="col-3 col-form-label">Họ và tên</label>
+                                <label for="fullName" class="col-3 col-form-label">Họ và tên</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" id="inputStudentName" placeholder="Họ và tên">
+                                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Họ và tên">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="idClass" class="col-3 col-form-label">Lớp học</label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="idClass" name="idClass" placeholder="Họ và tên">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="idSem" class="col-3 col-form-label">Học kỳ</label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="idSem" name="idSem" placeholder="Học kỳ">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="idSubject" class="col-3 col-form-label">Môn học</label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="idSubject" name="idSubject" placeholder="Môn học">
                                 </div>
                             </div>
 
@@ -113,13 +134,19 @@ require '../Class/Assignment.php';
                                         <input type="number" class="form-control" id="mark90" placeholder="Điểm thi cuối kỳ">
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="avg" class="col-3 col-form-label">Điểm trung bình</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" id="avg" name="avg" placeholder="Điểm trung bình">
+                                    </div>
+                                </div>
 
 
                             </div>
 
                             <div class="form-group row">
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-success">Nhập điểm</button>
+                                    <button type="submit" name="createMark" class="btn btn-success">Nhập điểm</button>
                                 </div>
                             </div>
 
@@ -133,7 +160,7 @@ require '../Class/Assignment.php';
 
     <div class="container-fluid py-4">
         <div class="row pt-0" id="option">
-            <form class="col-9" action="" method="post">
+            <form class="col-9">
                 <div class="form-group row">
                     <div class="form-group col-2">
                         <label for="classroom">Lớp học</label>
@@ -168,14 +195,62 @@ require '../Class/Assignment.php';
                             ?>
                         </select>
                     </div>
+                    <div class="form-group col-2">
+                        <label for="subjects">Lọc danh sách</label>
+                        <input type="button" id="filterListMark" name="filterListMark" value="Lọc" class="form-control btn btn-primary">
+                    </div>
                 </div>
             </form>
+
         </div>
         <div class="row">
             <div class="col-12 mx-auto bg-white rounded shadow">
                 <div class="row flex-row d-flex py-3 justify-content-between">
                     <input id="inputSearch" class="form-control w-25 px-3 mx-3" type="search" placeholder="Tìm kiếm mã môn học" aria-label="Search">
+                    <div class="col-3 m-0 d-flex justify-content-center">
+                        <?php
+                        require '../Class/Mark.php';
+                        if (isset($_POST['createMark'])) {
 
+                            $result = (new Mark())->createMark(
+                                $_POST['idStd'],
+                                $_POST['idClass'],
+                                $_POST['idSem'],
+                                $_POST['idSubject'],
+                                $_POST['mark1'],
+                                $_POST['mark15'],
+                                $_POST['mark45'],
+                                $_POST['mark90']
+                            );
+
+                            if ($result) {
+                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
+                            } else {
+                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                            }
+                        }
+
+                        if (isset($_POST['updateMark'])) {
+
+                            $result = (new Mark())->updateMark(
+                                $_POST['idStd'],
+                                $_POST['idClass'],
+                                $_POST['idSem'],
+                                $_POST['idSubject'],
+                                $_POST['mark1'],
+                                $_POST['mark15'],
+                                $_POST['mark45'],
+                                $_POST['mark90']
+                            );
+
+                            if ($result) {
+                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
+                            } else {
+                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                            }
+                        }
+                        ?>
+                    </div>
                 </div>
 
                 <!-- Fixed header table-->
@@ -183,9 +258,11 @@ require '../Class/Assignment.php';
                     <table class="table table-fixed">
                         <thead class="table-header">
                             <tr>
-                                <th scope="col">#</th>
                                 <th scope="col">Mã học sinh</th>
                                 <th scope="col">Tên học sinh</th>
+                                <th scope="col">Lớp học</th>
+                                <th scope="col">Học kỳ</th>
+                                <th scope="col">Môn học</th>
                                 <th scope="col">Điểm miệng</th>
                                 <th scope="col">Điểm 15p</th>
                                 <th scope="col">Điểm 45p</th>
@@ -195,21 +272,7 @@ require '../Class/Assignment.php';
                             </tr>
                         </thead>
                         <tbody class="table-content" id="mark-table">
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>123456</td>
-                                <td>Lý Xuân Sang</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>
-                                    <button onclick="editStudentMark(event)" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                                        Nhập
-                                    </button>
-                                </td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div><!-- End -->
