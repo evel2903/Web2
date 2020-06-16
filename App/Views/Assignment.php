@@ -74,7 +74,7 @@ require '../Class/Assignment.php';
                         $result = (new Assignment())->createAssignment(
                             $_POST['subject'],
                             $_POST['teacher'],
-                            $_POST['classroom'],       
+                            $_POST['classroom'],
                             $_POST['semester']
                         );
 
@@ -91,7 +91,7 @@ require '../Class/Assignment.php';
                             $_POST['idAssignment'],
                             $_POST['subject'],
                             $_POST['teacher'],
-                            $_POST['classroom'],       
+                            $_POST['classroom'],
                             $_POST['semester']
                         );
 
@@ -213,7 +213,7 @@ require '../Class/Assignment.php';
                             </tr>
                         </thead>
                         <tbody class="table-content" id="assignment-table">
-                            
+
                         </tbody>
                     </table>
                 </div><!-- End -->

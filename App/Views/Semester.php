@@ -53,39 +53,58 @@ if (!isset($_SESSION['username'])) {
     <div class="container-fluid py-5">
         <div class="row">
             <div class="col-4">
-                <div class="m-0 d-flex justify-content-center">
+                <div class="m-0 d-flex justify-content-center" id="showError">
                     <?php
                     require '../Connection/Connect.php';
                     require '../Class/Semester.php';
                     if (isset($_POST['createSemester'])) {
-
-                        $result = (new Semester())->createSemester(
-                            $_POST['idSem'],
-                            $_POST['fullName'],
-                            $_POST['coefficient'],
-                            $_POST['schoolYear']
-                        );
-
-                        if ($result) {
-                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
-                        } else {
-                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                        if (
+                            !$_POST['idSem']||
+                            !$_POST['fullName']||
+                            !$_POST['coefficient']||
+                            !$_POST['schoolYear']
+                        ) {
+                            echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Vui lòng nhâp đủ thông tin</span>';
+                        } 
+                        else {
+                            $result = (new Semester())->createSemester(
+                                $_POST['idSem'],
+                                $_POST['fullName'],
+                                $_POST['coefficient'],
+                                $_POST['schoolYear']
+                            );
+    
+                            if ($result) {
+                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
+                            } else {
+                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                            }
                         }
+                        
                     }
 
                     if (isset($_POST['updateSemester'])) {
-
-                        $result = (new Semester())->updateSemester(
-                            $_POST['idSem'],
-                            $_POST['fullName'],
-                            $_POST['coefficient'],
-                            $_POST['schoolYear']
-                        );
-
-                        if ($result) {
-                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
-                        } else {
-                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                        if (
+                            !$_POST['idSem']||
+                            !$_POST['fullName']||
+                            !$_POST['coefficient']||
+                            !$_POST['schoolYear']
+                        ) {
+                            echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Vui lòng nhâp đủ thông tin</span>';
+                        } 
+                        else {
+                            $result = (new Semester())->updateSemester(
+                                $_POST['idSem'],
+                                $_POST['fullName'],
+                                $_POST['coefficient'],
+                                $_POST['schoolYear']
+                            );
+    
+                            if ($result) {
+                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
+                            } else {
+                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                            }
                         }
                     }
 
@@ -106,7 +125,7 @@ if (!isset($_SESSION['username'])) {
                 <div id="form-semester-info">
                     <div>
                         <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin học kỳ</h2>
-                        <form class="border border-primary p-4" action="Semester.php" method="POST">
+                        <form onsubmit="return checkedSemester()" class="border border-primary p-4" action="Semester.php" method="POST">
 
                             <div class="form-group row">
                                 <label for="idSem" class="col-3 col-form-label">Mã học kỳ</label>
@@ -189,7 +208,7 @@ if (!isset($_SESSION['username'])) {
     <script src="assets/js/Advanced-NavBar---Multi-dropdown.js"></script>
     <script src="/Web2/App/Vendors/js/axios.min.js"></script>
 
-
+    <script src="/Web2/App/Views/assets/js/Validation.js"></script>
     <script src="/Web2/App/Views/assets/js/Module/Semester.js"></script>
 </body>
 

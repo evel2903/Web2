@@ -57,46 +57,68 @@ if (!isset($_SESSION['username'])) {
 
         <div class="row">
             <div class="col-4">
-                <div class="m-0 d-flex justify-content-center">
+                <div class="m-0 d-flex justify-content-center" id="showError">
                     <?php
                     require '../Connection/Connect.php';
                     require '../Class/Student.php';
                     if (isset($_POST['createStudent'])) {
-
-                        $result = (new Student())->createStudent(
-                            $_POST['idStd'],
-                            $_POST['idClass'],
-                            $_POST['fullName'],
-                            isset($_POST['gender-male']) ? 'Nam' : 'Nữ',
-                            $_POST['birthday'],
-                            $_POST['placeOfBirth'],
-                            $_POST['familyPhone']
-                        );
-
-                        if ($result) {
-                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
-                        } else {
-                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                        if( !$_POST['idStd']||
+                            !$_POST['idClass']||
+                            !$_POST['fullName']||
+                            !$_POST['gender-male']||
+                            !$_POST['birthday']||
+                            !$_POST['placeOfBirth']||
+                            !$_POST['familyPhone']){
+                                echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Vui lòng nhâp đủ thông tin</span>';
                         }
+                        else{
+                            $result = (new Student())->createStudent(
+                                $_POST['idStd'],
+                                $_POST['idClass'],
+                                $_POST['fullName'],
+                                isset($_POST['gender-male']) ? 'Nam' : 'Nữ',
+                                $_POST['birthday'],
+                                $_POST['placeOfBirth'],
+                                $_POST['familyPhone']
+                            );
+    
+                            if ($result) {
+                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
+                            } else {
+                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                            }
+                        }
+                        
                     }
 
                     if (isset($_POST['updateStudent'])) {
-
-                        $result = (new Student())->updateStudent(
-                            $_POST['idStd'],
-                            $_POST['idClass'],
-                            $_POST['fullName'],
-                            isset($_POST['gender-male']) ? 'Nam' : 'Nữ',
-                            $_POST['birthday'],
-                            $_POST['placeOfBirth'],
-                            $_POST['familyPhone']
-                        );
-
-                        if ($result) {
-                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
-                        } else {
-                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                        if( !$_POST['idStd']||
+                        !$_POST['idClass']||
+                        !$_POST['fullName']||
+                        !$_POST['gender-male']||
+                        !$_POST['birthday']||
+                        !$_POST['placeOfBirth']||
+                        !$_POST['familyPhone']){
+                            echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Vui lòng nhâp đủ thông tin</span>';
                         }
+                        else{
+                            $result = (new Student())->updateStudent(
+                                $_POST['idStd'],
+                                $_POST['idClass'],
+                                $_POST['fullName'],
+                                isset($_POST['gender-male']) ? 'Nam' : 'Nữ',
+                                $_POST['birthday'],
+                                $_POST['placeOfBirth'],
+                                $_POST['familyPhone']
+                            );
+    
+                            if ($result) {
+                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
+                            } else {
+                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                            }
+                        }
+                        
                     }
 
                     if (json_decode(file_get_contents('php://input'), true) !== null) {
@@ -117,12 +139,12 @@ if (!isset($_SESSION['username'])) {
                 <div id="form-std-info">
                     <div class="enter-student-information">
                         <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin học sinh</h2>
-                        <form class="border border-primary p-4" action="Student.php" method="POST">
+                        <form onsubmit=" return checkedStudent()" class="border border-primary p-4" action="Student.php" method="POST">
 
                             <div class="form-group row">
                                 <label for="inputStudentId" class="col-3 col-form-label">Mã số học sinh</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" name="idStd" id="inputStudentId" placeholder="Mã số học sinh">
+                                    <input type="text" class="form-control" name="idStd" id="idStd" placeholder="Mã số học sinh">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -135,7 +157,7 @@ if (!isset($_SESSION['username'])) {
                             <div class="form-group row">
                                 <label for="inputStudentName" class="col-3 col-form-label">Họ và tên</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" name="fullName" id="inputStudentName" placeholder="Họ và tên">
+                                    <input type="text" class="form-control" name="fullName" id="fullName" placeholder="Họ và tên">
                                 </div>
                             </div>
 
@@ -154,21 +176,21 @@ if (!isset($_SESSION['username'])) {
                             <div class="form-group row">
                                 <label for="inputStudentBirthday" class="col-3 col-form-label">Ngày sinh</label>
                                 <div class="col-8">
-                                    <input type="date" class="form-control" id="inputStudentBirthday" name="birthday" placeholder="Ngày sinh">
+                                    <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Ngày sinh">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="birthplace" class="col-3 col-form-label">Nơi sinh</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" name="placeOfBirth" id="birthplace" placeholder="Nơi sinh">
+                                    <input type="text" class="form-control" name="placeOfBirth" id="placeOfBirth" placeholder="Nơi sinh">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="telFamily" class="col-3 col-form-label">SĐT gia đình</label>
                                 <div class="col-8">
-                                    <input type="tel" class="form-control" name="familyPhone" id="telFamily" placeholder="Số điện thoại gia đình">
+                                    <input type="tel" class="form-control" name="familyPhone" id="familyPhone" placeholder="Số điện thoại gia đình">
                                 </div>
                             </div>
 
@@ -239,6 +261,7 @@ if (!isset($_SESSION['username'])) {
     <script src="/Web2/App/Vendors/js/axios.min.js"></script>
 
     <script src="/Web2/App/Views/assets/js/Module/Student.js"></script>
+    <script src="/Web2/App/Views/assets/js/Validation.js"></script>
 </body>
 
 </html>

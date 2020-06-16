@@ -53,37 +53,53 @@ if (!isset($_SESSION['username'])) {
     <div class="container-fluid py-5">
         <div class="row">
             <div class="col-4">
-            <div class="m-0 d-flex justify-content-center">
+                <div class="m-0 d-flex justify-content-center">
                     <?php
                     require '../Connection/Connect.php';
                     require '../Class/User.php';
                     if (isset($_POST['createUser'])) {
-                        $salt = 'e/v?e:l';
-                        $result = (new User())->createUser(
-                            $_POST['username'],
-                            md5($salt.$_POST['password']),
-                            $_POST['level']
-                        );
-
-                        if ($result) {
-                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
+                        if (
+                            !$_POST['username'] ||
+                            !$_POST['password'] ||
+                            !$_POST['level']
+                        ) {
+                            echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Vui lòng nhâp đủ thông tin</span>';
                         } else {
-                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                            $salt = 'e/v?e:l';
+                            $result = (new User())->createUser(
+                                $_POST['username'],
+                                md5($salt . $_POST['password']),
+                                $_POST['level']
+                            );
+
+                            if ($result) {
+                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
+                            } else {
+                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                            }
                         }
                     }
 
                     if (isset($_POST['updateUser'])) {
-                        $salt = 'e/v?e:l';
-                        $result = (new User())->updateUser(
-                            $_POST['username'],
-                            md5($salt.$_POST['password']),
-                            $_POST['level']
-                        );
-
-                        if ($result) {
-                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
+                        if (
+                            !$_POST['username'] ||
+                            !$_POST['password'] ||
+                            !$_POST['level']
+                        ) {
+                            echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Vui lòng nhâp đủ thông tin</span>';
                         } else {
-                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                            $salt = 'e/v?e:l';
+                            $result = (new User())->updateUser(
+                                $_POST['username'],
+                                md5($salt . $_POST['password']),
+                                $_POST['level']
+                            );
+
+                            if ($result) {
+                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
+                            } else {
+                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                            }
                         }
                     }
 

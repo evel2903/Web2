@@ -211,43 +211,68 @@ require '../Class/Assignment.php';
                         <?php
                         require '../Class/Mark.php';
                         if (isset($_POST['createMark'])) {
-
-                            $result = (new Mark())->createMark(
-                                $_POST['idStd'],
-                                $_POST['idClass'],
-                                $_POST['idSem'],
-                                $_POST['idSubject'],
-                                $_POST['mark1'],
-                                $_POST['mark15'],
-                                $_POST['mark45'],
-                                $_POST['mark90']
-                            );
-
-                            if ($result) {
-                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
+                            if (
+                                !$_POST['idStd']||
+                                !$_POST['idClass']||
+                                !$_POST['idSem']||
+                                !$_POST['idSubject']||
+                                !$_POST['mark1']||
+                                !$_POST['mark15']||
+                                !$_POST['mark45']||
+                                !$_POST['mark90']
+                            ) {
+                                echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Vui lòng nhâp đủ thông tin</span>';
                             } else {
-                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                                $result = (new Mark())->createMark(
+                                    $_POST['idStd'],
+                                    $_POST['idClass'],
+                                    $_POST['idSem'],
+                                    $_POST['idSubject'],
+                                    $_POST['mark1'],
+                                    $_POST['mark15'],
+                                    $_POST['mark45'],
+                                    $_POST['mark90']
+                                );
+    
+                                if ($result) {
+                                    echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
+                                } else {
+                                    echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                                }
                             }
                         }
 
                         if (isset($_POST['updateMark'])) {
-
-                            $result = (new Mark())->updateMark(
-                                $_POST['idStd'],
-                                $_POST['idClass'],
-                                $_POST['idSem'],
-                                $_POST['idSubject'],
-                                $_POST['mark1'],
-                                $_POST['mark15'],
-                                $_POST['mark45'],
-                                $_POST['mark90']
-                            );
-
-                            if ($result) {
-                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
+                            if (
+                                !$_POST['idStd']||
+                                !$_POST['idClass']||
+                                !$_POST['idSem']||
+                                !$_POST['idSubject']||
+                                !$_POST['mark1']||
+                                !$_POST['mark15']||
+                                !$_POST['mark45']||
+                                !$_POST['mark90']
+                            ) {
+                                echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Vui lòng nhâp đủ thông tin</span>';
                             } else {
-                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                                $result = (new Mark())->updateMark(
+                                    $_POST['idStd'],
+                                    $_POST['idClass'],
+                                    $_POST['idSem'],
+                                    $_POST['idSubject'],
+                                    $_POST['mark1'],
+                                    $_POST['mark15'],
+                                    $_POST['mark45'],
+                                    $_POST['mark90']
+                                );
+    
+                                if ($result) {
+                                    echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
+                                } else {
+                                    echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                                }
                             }
+                            
                         }
                         ?>
                     </div>

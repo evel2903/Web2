@@ -17,7 +17,7 @@
 <body>
 	<div class="body" style="padding-top: 150px;">
 		<div class="border rounded shadow login-center">
-			<form onsubmit="return checkedLogin()" action="index.php" method="POST" style="padding-top: 32px;">
+			<form onsubmit="return checkedLogin" action="index.php" method="POST" style="padding-top: 32px;">
 				<div class="form-group text-center"><img class="img-fluid" style="width: 100px;" src="/Web2/App/Views/assets/img/default.png"></div>
 				<div class="form-group d-flex justify-content-center">
 					<span id="showError" class="text-danger">
@@ -30,12 +30,12 @@
 							$password = $_POST['txtPass'];
 
 							if (!$username || !$password) {
-								echo 'Nhập thiếu thông tin đăng nhập';
+								echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Nhập thiếu thông tin đăng nhập</span>';
 							} else {
 								$result = (new User())->checkedUser($username, $password);
 
 								if (count($result) == 0) {
-									echo 'Sai tên đăng nhập hoặc mật khẩu';
+									echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sai tên đăng nhập hoặc mật khẩu</span>';
 								} else {
 									session_start();
 									$_SESSION['username'] = $username;
@@ -59,21 +59,11 @@
 			</form>
 		</div>
 	</div>
-	<script>
-		const checkedLogin = () => {
-			let username = document.getElementById('txtUser').value;
-			let password = document.getElementById('txtPass').value;
-			if (username.length === 0 || password.length === 0) {
-				document.getElementById('showError').innerHTML = 'Nhập thiếu thông tin đăng nhập'
-				return false;
-			}
-			return true;
-		}
-	</script>
 	<script src="/Web2/App/Vendors/js/jquery.min.js"></script>
 	<script src="/Web2/App/Vendors/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/Web2/App/Vendors/js/axios.min.js"></script>
 
+	<script src="/Web2/App/Views/assets/js/Validation.js"></script>
 </body>
 
 </html>

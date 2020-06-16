@@ -53,39 +53,53 @@ if (!isset($_SESSION['username'])) {
     <div class="container-fluid py-5">
         <div class="row">
             <div class="col-4">
-                <div class="m-0 d-flex justify-content-center">
+                <div class="m-0 d-flex justify-content-center" id="showError">
                     <?php
                     require '../Connection/Connect.php';
                     require '../Class/Subject.php';
                     if (isset($_POST['createSubject'])) {
-
-                        $result = (new Subject())->createSubject(
-                            $_POST['idSubject'],
-                            $_POST['fullName'],
-                            $_POST['lesson'],
-                            $_POST['coefficient']
-                        );
-
-                        if ($result) {
-                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
+                        if (
+                            !$_POST['idSubject'] ||
+                            !$_POST['fullName'] ||
+                            !$_POST['lesson'] || !!$_POST['coefficient']
+                        ) {
+                            echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Vui lòng nhâp đủ thông tin</span>';
                         } else {
-                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                            $result = (new Subject())->createSubject(
+                                $_POST['idSubject'],
+                                $_POST['fullName'],
+                                $_POST['lesson'],
+                                $_POST['coefficient']
+                            );
+
+                            if ($result) {
+                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Thêm thành công</span>';
+                            } else {
+                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Thêm thất bại</span>';
+                            }
                         }
                     }
 
                     if (isset($_POST['updateSubject'])) {
-
-                        $result = (new Subject())->updateSubject(
-                            $_POST['idSubject'],
-                            $_POST['fullName'],
-                            $_POST['lesson'],
-                            $_POST['coefficient']
-                        );
-
-                        if ($result) {
-                            echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
+                        if (
+                            !$_POST['idSubject'] ||
+                            !$_POST['fullName'] ||
+                            !$_POST['lesson'] || !!$_POST['coefficient']
+                        ) {
+                            echo '<span id="showError" class="text-warning border border-warning py-1 px-5">Vui lòng nhâp đủ thông tin</span>';
                         } else {
-                            echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                            $result = (new Subject())->updateSubject(
+                                $_POST['idSubject'],
+                                $_POST['fullName'],
+                                $_POST['lesson'],
+                                $_POST['coefficient']
+                            );
+
+                            if ($result) {
+                                echo '<span id="showError" class="text-success border border-success py-1 px-5 border-success">Sửa thành công</span>';
+                            } else {
+                                echo '<span id="showError" class="text-danger border border-danger py-1 px-5">Sửa thất bại</span>';
+                            }
                         }
                     }
 
@@ -106,33 +120,33 @@ if (!isset($_SESSION['username'])) {
                 <div id="form-subject-info">
                     <div>
                         <h2 class="border-bottom border-primary my-5 pb-5 text-center">Nhập thông tin môn học</h2>
-                        <form class="border border-primary p-4" action="Subjects.php" method="POST">
+                        <form onsubmit="return checkedSubject()" class="border border-primary p-4" action="Subjects.php" method="POST">
 
                             <div class="form-group row">
                                 <label for="inputTeacherId" class="col-3 col-form-label">Mã môn học</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" id="inputTeacherId" name="idSubject" placeholder="Mã môn học">
+                                    <input type="text" class="form-control" id="idSubject" name="idSubject" placeholder="Mã môn học">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="inputTeacherName" class="col-3 col-form-label">Tên môn học</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" id="inputTeacherName" name="fullName" placeholder="Tên môn học">
+                                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Tên môn học">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="inputTeacherIdMh" class="col-3 col-form-label">Số tiết</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" id="inputTeacherIdMh" name="lesson" placeholder="Số tiết">
+                                    <input type="text" class="form-control" id="lesson" name="lesson" placeholder="Số tiết">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="inputTeacherArs" class="col-3 col-form-label">Hệ số</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" id="inputTeacherArs" name="coefficient" placeholder="Hệ số">
+                                    <input type="text" class="form-control" id="coefficient" name="coefficient" placeholder="Hệ số">
                                 </div>
                             </div>
 
@@ -192,7 +206,7 @@ if (!isset($_SESSION['username'])) {
     <script src="assets/js/Advanced-NavBar---Multi-dropdown.js"></script>
     <script src="/Web2/App/Vendors/js/axios.min.js"></script>
 
-
+    <script src="/Web2/App/Views/assets/js/Validation.js"></script>
     <script src="/Web2/App/Views/assets/js/Module/Subject.js"></script>
 </body>
 
