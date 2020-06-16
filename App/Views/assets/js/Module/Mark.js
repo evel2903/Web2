@@ -36,38 +36,38 @@ const studentMarkListHTML = (studentMarkList) => {
 }
 
 const renderStudentMarkFormEdit = (studentMark) => {
-    return `                    <div>
+    return `<div>
     <form class="" action="" method="POST">
 
-        <div class="form-group row">
+        <div class="form-group row d-none">
             <label for="idStd" class="col-3 col-form-label">Mã số học sinh</label>
             <div class="col-8">
                 <input type="text" class="form-control" id="idStd" name="idStd" placeholder="Mã số học sinh" value="${studentMark.idStd}">
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row d-none">
             <label for="fullName" class="col-3 col-form-label">Họ và tên</label>
             <div class="col-8">
                 <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Họ và tên" value="${studentMark.fullName}">
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row d-none">
             <label for="idClass" class="col-3 col-form-label">Lớp học</label>
             <div class="col-8">
                 <input type="text" class="form-control" id="idClass" name="idClass" placeholder="Lớp học" value="${studentMark.idClass}">
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row d-none">
             <label for="idSem" class="col-3 col-form-label">Học kỳ</label>
             <div class="col-8">
                 <input type="text" class="form-control" id="idSem" name="idSem" placeholder="Học kỳ" value="${studentMark.idSem}">
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row d-none">
             <label for="idSubject" class="col-3 col-form-label">Môn học</label>
             <div class="col-8">
                 <input type="text" class="form-control" id="idSubject" name="idSubject" placeholder="Môn học" value="${studentMark.idSubject}">
@@ -102,7 +102,7 @@ const renderStudentMarkFormEdit = (studentMark) => {
 
 
         </div>
-        <div class="form-group row">
+        <div class="form-group row d-none">
             <label for="avg" class="col-3 col-form-label">Điểm trung bình</label>
             <div class="col-8">
                 <input type="text" class="form-control" id="avg" placeholder="Điểm trung bình" value="${studentMark.avg}">
@@ -164,7 +164,7 @@ let allMarkList = [];
 axios.get('/Web2/App/Data/Data.php')
     .then(function (response) {
         // handle success
-        document.getElementById('mark-table').innerHTML = studentMarkListHTML([...response.data.studentMarkList])
+        //document.getElementById('mark-table').innerHTML = studentMarkListHTML([...response.data.studentMarkList])
         allMarkList = [...response.data.studentMarkList];
 
 

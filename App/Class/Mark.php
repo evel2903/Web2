@@ -9,21 +9,22 @@ class Mark extends Connect
     }
     public function getAllMark()
     {
-        $sql = "SELECT
-                    `student`.`idStd`,
-                    `student`.`fullName`,
-                    `student`.`idClass`,
-                    `semester`.`idSem`,
-                    `subject`.`idSubject`,
-                    `mark`.`mark1`,
-                    `mark`.`mark15`,
-                    `mark`.`mark45`,
-                    `mark`.`mark90`,
-                    `mark`.`avg`   
-                    FROM `mark` 
-                    RIGHT JOIN `student` ON `mark`.`idStd` = `student`.`idStd`,
-                    `subject`,
-                    `semester`";
+        $sql = "SELECT DISTINCT 
+                        `student`.`idStd`,
+                        `student`.`fullName`,
+                        `student`.`idClass`,
+                        `semester`.`idSem`,
+                        `subject`.`idSubject`,
+                        `mark`.`mark1`,
+                        `mark`.`mark15`,
+                        `mark`.`mark45`,
+                        `mark`.`mark90`,
+                        `mark`.`avg`   
+                        FROM `mark`
+                        RIGHT JOIN `student` ON `mark`.`idStd` = `student`.`idStd`, 
+                        `subject`,
+                        `semester`,
+                        `classroom`";
         $table_connect = mysqli_query($this->getConnection(), $sql);
         $table = array();
         while ($row = mysqli_fetch_assoc($table_connect)) {

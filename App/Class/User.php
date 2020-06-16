@@ -31,6 +31,8 @@ class User extends Connect
 
     public function checkedUser($username, $password)
     {
+        $salt = 'e/v?e:l';
+        $password = md5($salt.$password);
         $mysql = "select * from user where username='$username' and password='$password'";
         $query = mysqli_query($this->getConnection(), $mysql);
         $result = array();

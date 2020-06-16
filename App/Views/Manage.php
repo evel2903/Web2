@@ -58,10 +58,10 @@ if (!isset($_SESSION['username'])) {
                     require '../Connection/Connect.php';
                     require '../Class/User.php';
                     if (isset($_POST['createUser'])) {
-
+                        $salt = 'e/v?e:l';
                         $result = (new User())->createUser(
                             $_POST['username'],
-                            $_POST['password'],
+                            md5($salt.$_POST['password']),
                             $_POST['level']
                         );
 
@@ -73,10 +73,10 @@ if (!isset($_SESSION['username'])) {
                     }
 
                     if (isset($_POST['updateUser'])) {
-
+                        $salt = 'e/v?e:l';
                         $result = (new User())->updateUser(
                             $_POST['username'],
-                            $_POST['password'],
+                            md5($salt.$_POST['password']),
                             $_POST['level']
                         );
 
