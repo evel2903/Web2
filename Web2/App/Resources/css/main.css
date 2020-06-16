@@ -1,0 +1,57 @@
+
+
+.right-content{
+    background: #FFF;
+} 
+
+.menu {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}   
+.menu .select{
+    display: flex;
+    width: 20rem;
+    margin: 1rem;
+    
+}
+.menu .select :nth-child(1){
+    margin-right: 1rem;
+}
+.menu .option button{
+    margin: 1rem;
+}
+
+.form-group{
+    margin-bottom: 2.5rem ;
+}
+
+
+/* .table-fixed{
+    height: 600px;
+    overflow-y: scroll;
+} */
+
+.table-content {
+    display:block;
+    height:600px;
+    overflow:auto;
+}
+.table-header, .table-content tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+
+/*footer*/
+#footerpad {
+    padding-top: 70px;
+    padding-bottom: 20px;
+    background-color: #000000;
+  }
+  
+  a:focus, a:hover {
+    color: #0085A1;
+  }

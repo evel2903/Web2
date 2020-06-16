@@ -1,0 +1,14 @@
+.body {
+  width: 100%;
+  min-height: 100vh;
+  background-image: linear-gradient(45deg, rgba(52,52,52,1) 0%, rgba(33,94,76,1) 52%, rgba(60,195,151,1) 100%);
+}
+
+.login-center {
+  width: 60%;
+  margin-right: 20%;
+  margin-left: 20%;
+  background-color: rgba(172, 172, 172, 0.192);
+  min-height: 400px;
+}
+
