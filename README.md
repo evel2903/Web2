@@ -1,6 +1,6 @@
 # Web2
 Đồ án quản lý học sinh - Web
-#Hướng dẫn cài đặt
+# Hướng dẫn cài đặt
 	1. Tạo một csdl với tên: qlhs
 	2. Import file qlhs.sql
 	3. Đưa thư mục Web2 vào httdocs
